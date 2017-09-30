@@ -6,22 +6,52 @@
 <body>
     <div class="game_grid">
 
-    <div class="player">
+    <div class="player current_player" id="player1">
         <h1>Player 1</h1>
     </div>
-    <div class="player">
+    <div class="player" id="player2">
         <h1>Player 2</h1>
     </div>
-    <div class="buttons">
-        <div id="red" class="ball">+1</div>
-        <div id="yellow" class="ball">+2</div>
-        <div id="green" class="ball">+3</div>
-        <div id="brown" class="ball">+4</div>
-        <div id="blue" class="ball">+5</div>
-        <div id="pink" class="ball">+6</div>
-        <div id="black" class="ball">+7</div>
+    <div class="buttons" style="margin-top: 30px;">
+
+        <div id="red" class="ball red_grid">
+            <img src="assets/spacer.png" style="visibility: hidden;" width="100%" />
+        </div>
+        <div id="yellow" class="ball">
+            <img src="assets/spacer.png" style="visibility: hidden;" width="100%" />
+        </div>
+        <div id="green" class="ball">
+            <img src="assets/spacer.png" style="visibility: hidden;" width="100%" />
+        </div>
+        <div id="brown" class="ball">
+            <img src="assets/spacer.png" style="visibility: hidden;" width="100%" />
+        </div>
+        <div id="blue" class="ball">
+            <img src="assets/spacer.png" style="visibility: hidden;" width="100%" />
+        </div>
+        <div id="pink" class="ball">
+            <img src="assets/spacer.png" style="visibility: hidden;" width="100%" />
+        </div>
+        <div id="black" class="ball">
+            <img src="assets/spacer.png" style="visibility: hidden;" width="100%" />
+        </div>
     </div>
 
+    <div class="button_game" id="undo" style="margin-top: 40px;">Undo</div>
+    <div class="button_game" id="foul4" style="margin-top: 40px;">Foul (+4)</div>
+    <div class="button_game" id="foul5">Foul (+5)</div>
+    <div class="button_game" id="foul6">Foul (+6)</div>
+    <div class="button_game" id="foul7">Foul (+7)</div>
+    <div class="button_game" id="endbreak">End Of Break</div>
+
+
+    <div id="player1score" class="score">0</div>
+    <div id="player2score" class="score">0</div>
+    <div id="player1score_diff" class="difference">0</div>
+    <div id="player2score_diff" class="difference">0</div>
+    <div class="log" id="player1log">
+    </div>
+    <div class="log" id="player2log"></div>
     </div>
 
 
