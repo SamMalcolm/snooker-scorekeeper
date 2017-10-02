@@ -72,6 +72,8 @@ body { padding:0; margin: 0; }
     grid-gap: 10px;
     margin-left: 10px;
     margin-right: 10px;
+        max-width: 500px;
+    margin: auto;
 }
 .red_grid { grid-row:1/3; grid-column: 1/3; border:15px solid; }
 #red { border-color: red; }
