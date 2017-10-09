@@ -20,7 +20,11 @@ var gameEnd = false;
 function initiate() {
 
     hideColoursShowRed();
+    updateRemaining();
+}
 
+function respottedBlack() {
+    // HANDLE EVENT OF TIE
 }
 
 function updateRemaining() {
@@ -80,10 +84,19 @@ function changePlayer() {
         setLogBalls();
         player1=true;
     }
+
+    if (!finalBalls) {
+
     undoLog.push("player_change");
-
+    if (lastRedPotted) {
+        lastRedPotted=false;
+        finalBalls=true;
+        finalBallsDisplay("yellow");
+        remaining=27;
+    } else {
     hideColoursShowRed();
-
+    }
+    }
 }
 
 function setLogBalls() {
@@ -119,7 +132,18 @@ function updateScore() {
 }
 
 function endGame() {
-    // HANDLE GAME CONCLUSION
+    document.querySelector(".modal").style.display = "block";
+    if (player1score>player2score) {
+        var player1Wins = "<h1>Congratulations Player 1!</h1>";
+        player1Wins += "<h3>With a score of "+player1score+"</h3>";
+        player1Wins += "<h3>Player 1 has beaten player 2 by "+(player1score-player2score)+" points!</h3>"
+        document.querySelector(".modal_content").innerHTML += player1Wins;
+    } else {
+        var player2Wins = "<h1>Congratulations Player 2!</h1>";
+        player2Wins += "<h3>With a score of "+player2score+"</h3>";
+        player2Wins += "<h3>Player 2 has beaten player 1 by "+(player2score-player1score)+" points!</h3>"
+        document.querySelector(".modal_content").innerHTML += player2Wins;
+    }
 }
 
 function redPot() {
@@ -165,21 +189,28 @@ function blackPot() {
         finalBalls=true;
         finalBallsDisplay("yellow");
         remaining=27;
+        if (player1) { player1history.push("black"); } else { player2history.push("black");}
+        setLogBalls();
     } else {
         if (player1) {
             undoLog.push("P1:finalblack");
             player1score+=7;
+            player1history.push("black");
+            setLogBalls();
         } else {
             undoLog.push("P2:finalblack");
             player2score+=7;
+            player2history.push("black");
+            setLogBalls();
         }
         remaining-=7;
         gameEnd=true;
     }}
     if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
+    updateRemaining();
     setDifference();
-    if (gameEnd) { endGame(); }
+    if (gameEnd && player1score !== player2score) { endGame(); } else { respottedBlack(); }
 }
 
 function pinkPot() {
@@ -203,18 +234,25 @@ function pinkPot() {
         finalBalls=true;
         finalBallsDisplay("yellow");
         remaining=27;
+        if (player1) { player1history.push("yellow"); } else { player2history.push("yellow");}
+        setLogBalls();
     } else {
         if (player1) {
             undoLog.push("P1:finalpink");
             player1score+=6;
+            player1history.push("pink");
+            setLogBalls();
         } else {
             undoLog.push("P2:finalpink");
             player2score+=6;
+            player2history.push("pink");
+            setLogBalls();
         }
         remaining-=6;
         finalBallsDisplay("black");
     }}
     if (!finalBalls) { hideColoursShowRed(); }
+    updateRemaining();
     updateScore();
     setDifference();
 }
@@ -239,18 +277,25 @@ function yellowPot() {
         finalBalls=true;
         finalBallsDisplay("yellow");
         remaining=27;
+        if (player1) { player1history.push("yellow"); } else { player2history.push("yellow");}
+        setLogBalls();
     } else {
         if (player1) {
             undoLog.push("P1:finalyellow");
             player1score+=2;
+            player1history.push("yellow");
+            setLogBalls();
         } else {
             undoLog.push("P2:finalyellow");
             player2score+=2;
+            player2history.push("yellow");
+            setLogBalls();
         }
         remaining-=2;
         finalBallsDisplay("green");
     }}
     if (!finalBalls) { hideColoursShowRed(); }
+    updateRemaining();
     updateScore();
     setDifference();
 }
@@ -275,13 +320,19 @@ function greenPot() {
         finalBalls=true;
         finalBallsDisplay("yellow");
         remaining=27;
+        if (player1) { player1history.push("green"); } else { player2history.push("green");}
+        setLogBalls();
     } else {
         if (player1) {
             undoLog.push("P1:finalgreen");
             player1score+=3;
+            player1history.push("green");
+            setLogBalls();
         } else {
             undoLog.push("P2:finalgreen");
             player2score+=3;
+            player2history.push("green");
+            setLogBalls();
         }
         remaining-=3;
         finalBallsDisplay("brown");
@@ -289,6 +340,7 @@ function greenPot() {
     if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
+    updateRemaining();
 }
 
 function brownPot() {
@@ -311,13 +363,19 @@ function brownPot() {
         finalBalls=true;
         finalBallsDisplay("yellow");
         remaining=27;
+        if (player1) { player1history.push("brown"); } else { player2history.push("brown");}
+        setLogBalls();
     } else {
         if (player1) {
             undoLog.push("P1:finalbrown");
             player1score+=4;
+            player1history.push("brown");
+            setLogBalls();
         } else {
             undoLog.push("P2:finalbrown");
             player2score+=4;
+            player2history.push("brown");
+            setLogBalls();
         }
         remaining-=4;
         finalBallsDisplay("blue");
@@ -325,6 +383,7 @@ function brownPot() {
     if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
+    updateRemaining();
 }
 
 function bluePot() {
@@ -347,13 +406,19 @@ function bluePot() {
         finalBalls=true;
         finalBallsDisplay("yellow");
         remaining=27;
+        if (player1) { player1history.push("blue"); } else { player2history.push("blue");}
+        setLogBalls();
     } else {
         if (player1) {
             undoLog.push("P1:finalblue");
             player1score+=5;
+            player1history.push("blue");
+            setLogBalls();
         } else {
             undoLog.push("P2:finalblue");
             player2score+=5;
+            player2history.push("blue");
+            setLogBalls();
         }
         remaining-=5;
         finalBallsDisplay("pink");
@@ -361,6 +426,7 @@ function bluePot() {
     if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
+    updateRemaining();
 }
 
 function foulMove(i) {
@@ -394,92 +460,89 @@ function undoMove() {
             player1score--;
             remaining+=8;
             reds++;
-            player1=false;
-            if (undoLog.length!==1) {
-            hideRedShowColours();
-            } else { hideColoursShowRed(); }
+            player1history.pop();
+            hideColoursShowRed();
             break;
 
         case "P2:redpot":
             player2score--;
             remaining+=8;
             reds++;
-            player1=true;
-            if (undoLog.length!==1) {
-            hideRedShowColours();
-            } else { hideColoursShowRed(); }
+            player2history.pop();
+            hideColoursShowRed();
             break;
 
         case "P1:yellowpot":
             player1score-=2;
-            player1=false;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player1history.pop();
             break;
 
         case "P2:yellowpot":
             player2score-=2;
-            player1=true;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player2history.pop();
             break;
 
         case "P1:greenpot":
             player1score-=3;
-            player1=false;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player1history.pop();
             break;
 
         case "P2:greenpot":
             player2score-=3;
-            player1=true;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player2history.pop();
             break;
 
         case "P1:brownpot":
             player1score-=4;
-            player1=false;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player1history.pop();
             break;
 
         case "P2:brownpot":
             player2score-=4;
-            player1=true;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player2history.pop();
             break;
 
         case "P1:bluepot":
             player1score-=5;
-            player1=false;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player1history.pop();
             break;
 
         case "P2:bluepot":
             player2score-=5;
-            player1=true;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player2history.pop();
             break;
 
         case "P1:pinkpot":
             player1score-=6;
-            player1=false;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player1history.pop();
             break;
 
         case "P2:pinkpot":
             player2score-=6;
-            player1=true;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player2history.pop();
             break;
 
         case "P1:blackpot":
             player1score-=7;
-            player1=false;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player1history.pop();
+
             break;
 
         case "P2:blackpot":
             player2score-=7;
-            player1=true;
-            hideColoursShowRed();
+            hideRedShowColours();
+            player2history.pop();
             break;
 
         // FOULS UNDO
@@ -569,6 +632,7 @@ function undoMove() {
             updateRemaining();
             updateScore();
             setDifference();
+            setLogBalls();
             undoLog.pop();
 
 
@@ -591,6 +655,9 @@ document.querySelector(".button_game#foul5").addEventListener("click", function(
 document.querySelector(".button_game#foul6").addEventListener("click", function() { foulMove(6) }, false);
 document.querySelector(".button_game#foul7").addEventListener("click", function() { foulMove(7) }, false);
 
+document.querySelector(".exit_modal").addEventListener("click", function() {
+    window.location = "index.html";
+})
 
 /* Initlal Functions */
 window.onLoad = initiate();

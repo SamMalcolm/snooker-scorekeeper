@@ -221,3 +221,36 @@ body { padding:0; margin: 0; }
 
 }
 
+.modal {
+    position: fixed;
+    width:100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    left: 0;
+    top: 0;
+}
+
+.modal_content {
+    width: 80%;
+    margin: auto;
+    background:linear-gradient(90deg,#009345,#006838);
+    height: auto;
+    max-width: 900px;
+    min-height: 200px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    max-height: 80%;
+}
+.exit_modal {
+    float:right;
+    margin-top: 5px;
+    margin-right: 5px;
+    font-family: sans-serif;
+    color: white;
+    transition:0.2s;
+    cursor: pointer;
+}
+
+.exit_modal:hover {
+    color:black;
+}
