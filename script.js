@@ -1,3 +1,5 @@
+// SETTING VARS
+
 var urlParams = new URLSearchParams(window.location.search);
 
 var reds = urlParams.get('reds');
@@ -10,7 +12,16 @@ var player2history = [];
 var undoLog = [];
 var player1score = 0;
 var player2score = 0;
-var remaining = 147;
+var remaining = (8*reds)+27;
+var lastRedPotted = false;
+var finalBalls = false;
+var gameEnd = false;
+
+function initiate() {
+
+    hideColoursShowRed();
+
+}
 
 function updateRemaining() {
     document.querySelector(".remaining").innerHTML = remaining;
@@ -40,6 +51,20 @@ function hideRedShowColours() {
     document.querySelector(".ball#red").style.visibility = "hidden";
 }
 
+function showAllBalls() {
+    var balls = document.querySelectorAll(".ball");
+    for (var i=0;i<balls.length;i++) {
+        balls[i].style.visibility = "visible";
+    }
+}
+
+function finalBallsDisplay(ball) {
+    var balls = document.querySelectorAll(".ball");
+    for (var i=0;i<balls.length;i++) {
+        balls[i].style.visibility = "hidden";
+    }
+    document.querySelector(".ball#"+ball).style.visibility = "visible";
+}
 
 function changePlayer() {
 
@@ -55,6 +80,7 @@ function changePlayer() {
         setLogBalls();
         player1=true;
     }
+    undoLog.push("player_change");
 
     hideColoursShowRed();
 
@@ -92,9 +118,13 @@ function updateScore() {
     document.querySelector(".score#player2score").innerHTML = player2score;
 }
 
-function redPot() {
+function endGame() {
+    // HANDLE GAME CONCLUSION
+}
 
+function redPot() {
     reds--;
+    if (reds==0) { lastRedPotted=true; console.log("lastRedPotted"); }
     remaining -= 8;
 
     if (player1) {
@@ -115,9 +145,8 @@ function redPot() {
     updateRemaining();
 }
 
-
 function blackPot() {
-
+    if (reds>=1 && !finalBalls) {
     if (player1) {
         player1score += 7;
         document.querySelector("#player1log").innerHTML += "<div class=\"ball_log\" id=\"black_log\"></div>";
@@ -130,15 +159,32 @@ function blackPot() {
         player2history.push("black");
         setLogBalls();
         undoLog.push("P2:blackpot");
-    }
-    hideColoursShowRed();
+    }} else {
+    if (lastRedPotted) {
+        lastRedPotted=false;
+        finalBalls=true;
+        finalBallsDisplay("yellow");
+        remaining=27;
+    } else {
+        if (player1) {
+            undoLog.push("P1:finalblack");
+            player1score+=7;
+        } else {
+            undoLog.push("P2:finalblack");
+            player2score+=7;
+        }
+        remaining-=7;
+        gameEnd=true;
+    }}
+    if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
+    if (gameEnd) { endGame(); }
 }
 
 function pinkPot() {
-
-        if (player1) {
+    if (reds>=1 && !finalBalls) {
+    if (player1) {
         player1score+=6;
         document.querySelector("#player1log").innerHTML += "<div class=\"ball_log\" id=\"pink_log\"></div>";
         player1history.push("pink");
@@ -150,15 +196,31 @@ function pinkPot() {
         player2history.push("pink");
         setLogBalls();
         undoLog.push("P2:pinkpot");
-    }
-
-    hideColoursShowRed();
+        }
+    } else {
+    if (lastRedPotted) {
+        lastRedPotted=false;
+        finalBalls=true;
+        finalBallsDisplay("yellow");
+        remaining=27;
+    } else {
+        if (player1) {
+            undoLog.push("P1:finalpink");
+            player1score+=6;
+        } else {
+            undoLog.push("P2:finalpink");
+            player2score+=6;
+        }
+        remaining-=6;
+        finalBallsDisplay("black");
+    }}
+    if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
 }
 
-
 function yellowPot() {
+    if (reds>=1 && !finalBalls) {
     if (player1) {
         player1score+=2;
         document.querySelector("#player1log").innerHTML += "<div class=\"ball_log\" id=\"yellow_log\"></div>";
@@ -171,14 +233,30 @@ function yellowPot() {
         player2history.push("yellow");
         setLogBalls();
         undoLog.push("P2:yellowpot");
-    }
-    hideColoursShowRed();
+    }} else {
+    if (lastRedPotted) {
+        lastRedPotted=false;
+        finalBalls=true;
+        finalBallsDisplay("yellow");
+        remaining=27;
+    } else {
+        if (player1) {
+            undoLog.push("P1:finalyellow");
+            player1score+=2;
+        } else {
+            undoLog.push("P2:finalyellow");
+            player2score+=2;
+        }
+        remaining-=2;
+        finalBallsDisplay("green");
+    }}
+    if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
 }
 
-
 function greenPot() {
+    if (reds>=1 && !finalBalls) {
     if (player1) {
         player1score += 3;
         document.querySelector("#player1log").innerHTML += "<div class=\"ball_log\" id=\"green_log\"></div>";
@@ -191,14 +269,30 @@ function greenPot() {
         player2history.push("green");
         setLogBalls();
         undoLog.push("P2:greenpot");
-    }
-
-    hideColoursShowRed();
+    }} else {
+    if (lastRedPotted) {
+        lastRedPotted=false;
+        finalBalls=true;
+        finalBallsDisplay("yellow");
+        remaining=27;
+    } else {
+        if (player1) {
+            undoLog.push("P1:finalgreen");
+            player1score+=3;
+        } else {
+            undoLog.push("P2:finalgreen");
+            player2score+=3;
+        }
+        remaining-=3;
+        finalBallsDisplay("brown");
+    }}
+    if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
 }
 
 function brownPot() {
+    if (reds>=1 && !finalBalls) {
     if (player1) {
         player1score += 4;
         document.querySelector("#player1log").innerHTML += "<div class=\"ball_log\" id=\"brown_log\"></div>";
@@ -211,14 +305,30 @@ function brownPot() {
         player2history.push("brown");
         setLogBalls();
         undoLog.push("P2:brownpot");
-    }
-
-    hideColoursShowRed();
+    }} else {
+    if (lastRedPotted) {
+        lastRedPotted=false;
+        finalBalls=true;
+        finalBallsDisplay("yellow");
+        remaining=27;
+    } else {
+        if (player1) {
+            undoLog.push("P1:finalbrown");
+            player1score+=4;
+        } else {
+            undoLog.push("P2:finalbrown");
+            player2score+=4;
+        }
+        remaining-=4;
+        finalBallsDisplay("blue");
+    }}
+    if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
 }
 
 function bluePot() {
+    if (reds>=1 && !finalBalls) {
     if (player1) {
         player1score += 5;
         document.querySelector("#player1log").innerHTML += "<div class=\"ball_log\" id=\"blue_log\"></div>";
@@ -231,9 +341,24 @@ function bluePot() {
         player2history.push("blue");
         setLogBalls();
         undoLog.push("P2:bluepot");
-    }
-
-    hideColoursShowRed();
+    }} else {
+    if (lastRedPotted) {
+        lastRedPotted=false;
+        finalBalls=true;
+        finalBallsDisplay("yellow");
+        remaining=27;
+    } else {
+        if (player1) {
+            undoLog.push("P1:finalblue");
+            player1score+=5;
+        } else {
+            undoLog.push("P2:finalblue");
+            player2score+=5;
+        }
+        remaining-=5;
+        finalBallsDisplay("pink");
+    }}
+    if (!finalBalls) { hideColoursShowRed(); }
     updateScore();
     setDifference();
 }
@@ -242,8 +367,13 @@ function foulMove(i) {
 
     if (player1) {
         player2score += i;
+        undoLog.push("P1:foul"+i);
     } else {
         player1score += i;
+        undoLog.push("P2:foul"+i);
+    }
+    if (lastRedPotted) { lastRedPotted=false; } else {
+        // HANDLE THAT BALL BEING LAST POTTED
     }
     changePlayer();
     updateScore();
@@ -251,9 +381,14 @@ function foulMove(i) {
 }
 
 function undoMove() {
+
     console.log(undoLog.length);
     console.log(undoLog[undoLog.length-1]);
+
     switch (undoLog[undoLog.length-1]) {
+        case "player_change":
+            if (player1) { player1=false; } else { player1=true; }
+            break;
 
         case "P1:redpot":
             player1score--;
@@ -346,6 +481,90 @@ function undoMove() {
             player1=true;
             hideColoursShowRed();
             break;
+
+        // FOULS UNDO
+
+        case "P2:foul4":
+            player1score-=4;
+            player1=false;
+            if (undoLog[undoLog.length-2].includes("red")) {
+                hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
+            break;
+
+        case "P2:foul5":
+            player1score-=5;
+            player1=false;
+            if (undoLog[undoLog.length-2].includes("red")) {
+                hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
+            break;
+
+        case "P2:foul6":
+            player1score-=6;
+            player1=false;
+            if (undoLog[undoLog.length-2].includes("red")) {
+                hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
+            break;
+
+        case "P2:foul7":
+            player1score-=7;
+            player1=false;
+            if (undoLog[undoLog.length-2].includes("red")) {
+                hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
+
+        // FOULS UNDO PLAYER 1
+
+        case "P1:foul4":
+            player2score-=4;
+            player1=true;
+            if (undoLog[undoLog.length-2].includes("red")) {
+                hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
+            break;
+
+        case "P1:foul5":
+            player2score-=5;
+            player1=true;
+            if (undoLog[undoLog.length-2].includes("red")) {
+                hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
+            break;
+
+        case "P1:foul6":
+            player2score-=6;
+            player1=true;
+            if (undoLog[undoLog.length-2].includes("red")) {
+                hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
+            break;
+
+        case "P1:foul7":
+            player2score-=7;
+            player1=true;
+            if (undoLog[undoLog.length-2].includes("red")) {
+                hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
+
+            break;
     }
             updateRemaining();
             updateScore();
@@ -354,6 +573,7 @@ function undoMove() {
 
 
 }
+
 /* Ball Colours */
 document.querySelector(".ball#red").addEventListener("click", redPot, false);
 document.querySelector(".ball#pink").addEventListener("click", pinkPot, false);
@@ -372,7 +592,6 @@ document.querySelector(".button_game#foul6").addEventListener("click", function(
 document.querySelector(".button_game#foul7").addEventListener("click", function() { foulMove(7) }, false);
 
 
-
 /* Initlal Functions */
+window.onLoad = initiate();
 
-hideColoursShowRed();
