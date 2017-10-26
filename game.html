@@ -15,7 +15,7 @@
     <div class="player" id="player2">
         <h1>Player 2</h1>
     </div>
-    <div class="buttons" style="margin-top: 30px;">
+    <div class="buttons" style="margin-top: 15px;">
 
         <div id="red" class="ball red_grid" style="border:20px solid red;">
             <img src="assets/increment1.png"  width="100%" />
@@ -40,24 +40,25 @@
         </div>
     </div>
 
-    <div class="button_game" id="undo" style="margin-top: 40px;">Undo</div>
-    <div class="button_game" id="foul4" style="margin-top: 40px;">Foul (+4)</div>
+    <div class="button_game" id="undo" style="margin-top: 12px;">Undo</div>
+    <div class="button_game" id="foul4" style="margin-top: 12px;">Foul (+4)</div>
     <div class="button_game" id="foul5">Foul (+5)</div>
     <div class="button_game" id="foul6">Foul (+6)</div>
     <div class="button_game" id="foul7">Foul (+7)</div>
     <div class="button_game" id="endbreak">End Of Break</div>
 
 
-    <div id="player1score" class="score">0</div>
+    <div id="player1score" class="score border-right">0</div>
     <div id="player2score" class="score">0</div>
-    <div id="player1score_diff" class="difference">0</div>
+    <div id="player1score_diff" class="difference border-right">0</div>
     <div id="player2score_diff" class="difference">0</div>
-    <div class="log" id="player1log">
+    <div class="log border-right" id="player1log">
     </div>
     <div class="log" id="player2log"></div>
+        <div class="remaining">147</div>
     </div>
     <div class="game_footer">
-    <div class="remaining">147</div>
+
     <div class="footer_content">
     &copy; Sam Malcolm 2017</div>
     </div>
@@ -73,6 +74,7 @@
 
 
 <script src="script.js" defer></script>
+<script src="phonegap.js"></script>
 </body>
 
 </html>

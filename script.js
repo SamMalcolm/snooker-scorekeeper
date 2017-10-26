@@ -64,13 +64,6 @@ function hideRedShowColours() {
     _(".ball#red").style.visibility = "hidden";
 }
 
-function showAllBalls() {
-    var balls = _All(".ball");
-    for (var i=0;i<balls.length;i++) {
-        balls[i].style.visibility = "visible";
-    }
-}
-
 function finalBallsDisplay(ball) {
     var balls = _All(".ball");
     for (var i=0;i<balls.length;i++) {
@@ -80,7 +73,7 @@ function finalBallsDisplay(ball) {
 }
 
 function changePlayer() {
-
+    hideColoursShowRed();
     _("#player1").classList.toggle("current_player");
     _("#player2").classList.toggle("current_player");
     undoLog.push("player_change");
@@ -94,6 +87,7 @@ function changePlayer() {
         setLogBalls();
         player1=true;
     }
+
 
     finalColour=false;
 }
@@ -365,6 +359,12 @@ function pot(value) {
         6:"pink",
         7:"black"
 };
+
+    if (ballValues[value]=="red") {
+        hideRedShowColours();
+    } else {
+        (reds > 0) ? hideColoursShowRed() : null;
+    }
     // If Ball is red
     if (ballValues[value] == "red") {
         reds--;
@@ -432,19 +432,12 @@ function pot(value) {
             player2score+=value;
             player2history.push(ballValues[value]);
         }
-        finalBallsDisplay(ballValues[++value]);
+        (value !== 7) ? finalBallsDisplay(ballValues[++value]) : null;
         remaining -= value;
 
         }
 
 
-    if (!finalBalls) {
-        hideColoursShowRed();
-    }
-
-    if (ballValues[value]=="red") {
-        hideRedShowColours();
-    }
 
     updateScore();
     setLogBalls();
