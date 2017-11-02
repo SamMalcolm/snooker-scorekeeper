@@ -72,11 +72,14 @@ function finalBallsDisplay(ball) {
     _(".ball#"+ball).style.visibility = "visible";
 }
 
-function changePlayer() {
-    hideColoursShowRed();
+function changePlayer(undo) {
+
     _("#player1").classList.toggle("current_player");
     _("#player2").classList.toggle("current_player");
+
+    if (undo == false) {
     undoLog.push("player_change");
+    }
 
     if (player1) {
         player1history.push("end");
@@ -87,9 +90,17 @@ function changePlayer() {
         setLogBalls();
         player1=true;
     }
+    if (reds==0 && freeBall) {
+        freeBall=false;
+        finalBalls=true;
+        finalBallsDisplay("yellow");
+    } else {
+        if (!finalBalls) {
+        hideColoursShowRed();
+        }
+    }
 
-
-    finalColour=false;
+    freeBall=false;
 }
 
 function setLogBalls() {
@@ -106,16 +117,17 @@ function setLogBalls() {
 function setDifference() {
     if (player1score > player2score) {
         var difference = (player1score-player2score);
-        if (difference < remaining) {
+        // ACCOUNTED FOR NO COME BACK OPPORTUNITY, NOT HANDLED IN CODE
+        /* if (difference < remaining) { */
             _("#player1score_diff").innerHTML = "+"+difference;
             _("#player2score_diff").innerHTML = "";
-        }
+      /*  } */
     } else {
         var difference = (player2score-player1score);
-        if (difference < remaining) {
+        /* if (difference < remaining) { */
             _("#player2score_diff").innerHTML = "+"+difference;
             _("#player1score_diff").innerHTML = "";
-        }
+        /* } */
     }
 }
 
@@ -160,11 +172,45 @@ function undoMove() {
 
     console.log(undoLog.length);
     console.log(undoLog[undoLog.length-1]);
+    var ballValues = {
+        1:"red",
+        2:"yellow",
+        3:"green",
+        4:"brown",
+        5:"blue",
+        6:"pink",
+        7:"black"
+    };
+
 
     switch (undoLog[undoLog.length-1]) {
         case "player_change":
-            if (player1) { player1=false; } else { player1=true; }
+            changePlayer(true);
             break;
+           /*
+        for (let i=0;i<ballValues.length;i++) {
+            case "P1:"+ballValues[i]+"pot":
+                if (ballValues[i]=="red") {
+                    reds++;
+                    remaining+=8;
+                    hideColoursShowRed();
+                } else {
+                    hideRedShowColours();
+                }
+                player1score -= i;
+                player1history.pop;
+
+            case "P2:"+ballValues[i]+"pot":
+                if (ballValues[i]=="red") {
+                    reds++;
+                    remaining+=8;
+                    hideColoursShowRed();
+                } else {
+                    hideRedShowColours();
+                }
+                player2score -= i;
+                player2history.pop;
+        } */
 
         case "P1:redpot":
             player1score--;
@@ -295,7 +341,7 @@ function undoMove() {
             } else {
                 hideColoursShowRed();
             }
-
+            break;
         // FOULS UNDO PLAYER 1
 
         case "P1:foul4":
@@ -338,6 +384,169 @@ function undoMove() {
             }
 
             break;
+         // Final ball count undo //
+        case "P1:yellowpot_final":
+            player1score -= 2;
+            remaining += 2;
+            finalBallsDisplay("yellow");
+            player1history.pop();
+            break;
+        case "P1:greenpot_final":
+            player1score -= 3;
+            remaining += 3;
+            finalBallsDisplay("green");
+            player1history.pop();
+            break;
+        case "P1:brownpot_final":
+            player1score -= 4;
+            remaining += 4;
+            finalBallsDisplay("brown");
+            player1history.pop();
+            break;
+        case "P1:bluepot_final":
+            player1score -= 5;
+            remaining += 5;
+            finalBallsDisplay("blue");
+            player1history.pop();
+            break;
+        case "P1:pinkpot_final":
+            player1score -= 6;
+            remaining += 6;
+            finalBallsDisplay("pink");
+            player1history.pop();
+            break;
+        case "P1:blackpot_final":
+            player1score -= 7;
+            remaining += 7;
+            finalBallsDisplay("black");
+            player1history.pop();
+            break;
+
+        case "P2:yellowpot_final":
+            player2score -= 2;
+            remaining += 2;
+            finalBallsDisplay("yellow");
+            player2history.pop();
+            break;
+        case "P2:greenpot_final":
+            player2score -= 3;
+            remaining += 3;
+            finalBallsDisplay("green");
+            player2history.pop();
+            break;
+        case "P2:brownpot_final":
+            player2score -= 4;
+            remaining += 4;
+            finalBallsDisplay("brown");
+            player2history.pop();
+            break;
+        case "P2:bluepot_final":
+            player2score -= 5;
+            remaining += 5;
+            finalBallsDisplay("blue");
+            player2history.pop();
+            break;
+        case "P2:pinkpot_final":
+            player2score -= 6;
+            remaining += 6;
+            finalBallsDisplay("pink");
+            player2history.pop();
+            break;
+        case "P2:blackpot_final":
+            player2score -= 7;
+            remaining += 7;
+            finalBallsDisplay("black");
+            player2history.pop();
+            break;
+
+          // Free Ball Undos //
+        case "P1:yellowpot_fb":
+            player1score -= 2;
+            remaining += 2;
+            freeBall = true;
+            hideRedShowColours();
+            player1history.pop();
+            break;
+        case "P1:greenpot_fb":
+            player1score -= 3;
+            remaining += 3;
+            freeBall = true;
+            hideRedShowColours();
+            player1history.pop();
+            break;
+        case "P1:brownpot_fb":
+            player1score -= 4;
+            remaining += 4;
+            freeBall = true;
+            hideRedShowColours();
+            player1history.pop();
+            break;
+        case "P1:bluepot_fb":
+            player1score -= 5;
+            remaining += 5;
+            freeBall = true;
+            hideRedShowColours();
+            player1history.pop();
+            break;
+        case "P1:pinkpot_fb":
+            player1score -= 6;
+            remaining += 6;
+            freeBall = true;
+            hideRedShowColours();
+            player1history.pop();
+            break;
+        case "P1:blackpot_fb":
+            player1score -= 7;
+            remaining += 7;
+            freeBall = true;
+            hideRedShowColours();
+            player1history.pop();
+            break;
+
+        case "P2:yellowpot_fb":
+            player2score -= 2;
+            remaining += 2;
+            freeBall = true;
+            hideRedShowColours();
+            player2history.pop();
+            break;
+
+        case "P2:greenpot_fb":
+            player2score -= 3;
+            remaining += 3;
+            freeBall = true;
+            hideRedShowColours();
+            player2history.pop();
+            break;
+        case "P2:brownpot_fb":
+            player2score -= 4;
+            remaining += 4;
+            freeBall = true;
+            hideRedShowColours();
+            player2history.pop();
+            break;
+        case "P2:bluepot_fb":
+            player2score -= 5;
+            remaining += 5;
+            freeBall = true;
+            hideRedShowColours();
+            player2history.pop();
+            break;
+        case "P2:pinkpot_fb":
+            player2score -= 6;
+            remaining += 6;
+            freeBall = true;
+            hideRedShowColours();
+            player2history.pop();
+            break;
+        case "P2:blackpot_fb":
+            player2score -= 7;
+            remaining += 7;
+            freeBall = true;
+            hideRedShowColours();
+            player2history.pop();
+            break;
+
     }
             updateRemaining();
             updateScore();
@@ -350,7 +559,7 @@ function undoMove() {
 
 function pot(value) {
 
-    var ballValues = {
+var ballValues = {
         1:"red",
         2:"yellow",
         3:"green",
@@ -371,10 +580,8 @@ function pot(value) {
         if (reds==0) {
             freeBall=true;
         }
-            remaining -= 8;
+        remaining -= 8;
     }
-
-    if (reds>=0) {
 
     if (player1) {
 
@@ -389,91 +596,180 @@ function pot(value) {
         undoLog.push("P2:"+ballValues[value]+"pot");
 
     }
-
-    }
-
-    if (finalColour) {
-
-        if (player1) {
-            undoLog.push("P1:"+ballValues[value]+"pot");
-            player1score+=value;
-            player1history.push(ballValues[value]);
-
-        } else {
-            undoLog.push("P2:"+ballValues[value]+"pot");
-            player2score+=value;
-            player2history.push(ballValues[value]);
-        }
-        finalBallsDisplay("yellow");
-        finalBalls = true;
-    }
-
-
     if (freeBall) {
-
-        finalColour = true;
-        freeBall=false;
-        remaining=27;
         hideRedShowColours();
-
-
     }
-
-
-
-    if (finalBalls) {
-        if (player1) {
-            undoLog.push("P1:"+ballValues[value]+"pot");
-            player1score+=value;
-            player1history.push(ballValues[value]);
-
-        } else {
-            undoLog.push("P2:"+ballValues[value]+"pot");
-            player2score+=value;
-            player2history.push(ballValues[value]);
-        }
-        (value !== 7) ? finalBallsDisplay(ballValues[++value]) : null;
-        remaining -= value;
-
-        }
-
-
 
     updateScore();
     setLogBalls();
     updateRemaining();
     setDifference();
 
-    if (gameEnd && player1score !== player2score) {
-        endGame();
+}
+
+function freeBallPot(value) {
+
+var ballValues = {
+        1:"red",
+        2:"yellow",
+        3:"green",
+        4:"brown",
+        5:"blue",
+        6:"pink",
+        7:"black"
+};
+
+    if (player1) {
+        undoLog.push("P1:"+ballValues[value]+"pot_fb");
+        player1score+=value;
+        player1history.push(ballValues[value]);
     } else {
-        if (gameEnd) {
-        respottedBlack();
-        }
+        undoLog.push("P2:"+ballValues[value]+"pot_fb");
+        player2score+=value;
+        player2history.push(ballValues[value]);
     }
+
+    finalBalls = true;
+    freeBall=false;
+    remaining=27;
+    finalBallsDisplay("yellow");
+    setDifference();
+    setLogBalls();
+    updateScore();
+    updateRemaining();
+}
+
+function finalPot(value) {
+
+var ballValues = {
+        1:"red",
+        2:"yellow",
+        3:"green",
+        4:"brown",
+        5:"blue",
+        6:"pink",
+        7:"black"
+};
+        if (player1) {
+            undoLog.push("P1:"+ballValues[value]+"pot_final");
+            player1score+=value;
+            player1history.push(ballValues[value]);
+
+        } else {
+            undoLog.push("P2:"+ballValues[value]+"pot_final");
+            player2score+=value;
+            player2history.push(ballValues[value]);
+        }
+        remaining -= value;
+
+        if (value==7) {
+            if (player1score == player2score) {
+                respottedBlack();
+            } else {
+                endGame();
+            }
+        }
+
+        (value !== 7) ? finalBallsDisplay(ballValues[++value]) : null;
+
+        setDifference();
+        setLogBalls();
+        updateScore();
+        updateRemaining();
+
+
+
 }
 
 
 
 /* Ball Colours */
 _(".ball#red").addEventListener("click", function() { pot(1) }, false);
-_(".ball#pink").addEventListener("click", function() { pot(6) }, false);
-_(".ball#black").addEventListener("click", function() { pot(7) }, false);
-_(".ball#blue").addEventListener("click", function() { pot(5) }, false);
-_(".ball#yellow").addEventListener("click", function() { pot(2) }, false);
-_(".ball#green").addEventListener("click", function() { pot(3) }, false);
-_(".ball#brown").addEventListener("click", function() { pot(4) }, false);
+_(".ball#pink").addEventListener("click", function() {
+    if (!freeBall && !finalBalls) {
+        pot(6);
+    } else {
+        if (finalBalls) {
+            finalPot(6);
+        } else {
+            freeBallPot(6);
+        }
+    }
+
+}, false);
+_(".ball#black").addEventListener("click", function() {
+    if (!freeBall && !finalBalls) {
+        pot(7);
+    } else {
+        if (finalBalls) {
+            finalPot(7);
+        } else {
+            freeBallPot(7);
+        }
+    }
+
+}, false);
+_(".ball#blue").addEventListener("click", function() {
+    if (!freeBall && !finalBalls) {
+        pot(5);
+    } else {
+        if (finalBalls) {
+            finalPot(5);
+        } else {
+            freeBallPot(5);
+        }
+    }
+}, false);
+_(".ball#yellow").addEventListener("click", function() {
+    if (!freeBall && !finalBalls) {
+        pot(2);
+    } else {
+        if (finalBalls) {
+            finalPot(2);
+        } else {
+            freeBallPot(2);
+        }
+    }
+}, false);
+_(".ball#green").addEventListener("click", function() {
+    if (!freeBall && !finalBalls) {
+        pot(3);
+    } else {
+        if (finalBalls) {
+            finalPot(3);
+        } else {
+            freeBallPot(3);
+        }
+    }
+}, false);
+_(".ball#brown").addEventListener("click", function() {
+    if (!freeBall && !finalBalls) {
+        pot(4);
+    } else {
+        if (finalBalls) {
+            finalPot(4);
+        } else {
+            freeBallPot(4);
+        }
+    }
+
+}, false);
 
 /* Foul and undo */
-_("#endbreak").addEventListener("click", changePlayer, false);
+_("#endbreak").addEventListener("click", function() {changePlayer(false)}, false);
+_("#player1").addEventListener("click",function() {
+    if (!player1) { changePlayer(); }
+},false);
+_("#player2").addEventListener("click",function() {
+    if (player1) { changePlayer(); }
+},false);
 _(".button_game#undo").addEventListener("click", undoMove, false);
 _(".button_game#foul4").addEventListener("click", function() { foulMove(4) }, false);
 _(".button_game#foul5").addEventListener("click", function() { foulMove(5) }, false);
 _(".button_game#foul6").addEventListener("click", function() { foulMove(6) }, false);
 _(".button_game#foul7").addEventListener("click", function() { foulMove(7) }, false);
-
 _(".exit_modal").addEventListener("click", function() {
-    window.location = "index.html";
+    window.location.replace("index.html");
 });
 
 /* Initlal Functions */
