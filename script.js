@@ -168,12 +168,10 @@ function foulMove(i) {
         player1score += i;
         undoLog.push("P2:foul"+i);
     }
-    if (lastRedPotted) { lastRedPotted=false; } else {
-        // HANDLE THAT BALL BEING LAST POTTED
-    }
     changePlayer();
     updateScore();
     setDifference();
+    updateRemaining();
 }
 
 function undoMove() {
