@@ -168,7 +168,7 @@ function foulMove(i) {
         player1score += i;
         undoLog.push("P2:foul"+i);
     }
-    changePlayer();
+    changePlayer(true);
     updateScore();
     setDifference();
     updateRemaining();
@@ -311,84 +311,83 @@ function undoMove() {
 
         case "P2:foul4":
             player1score-=4;
-            player1=false;
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
             } else {
                 hideColoursShowRed();
             }
+            changePlayer(true);
             break;
 
         case "P2:foul5":
             player1score-=5;
-            player1=false;
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
             } else {
                 hideColoursShowRed();
             }
+            changePlayer(true);
             break;
 
         case "P2:foul6":
             player1score-=6;
-            player1=false;
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
             } else {
                 hideColoursShowRed();
             }
+            changePlayer(true);
             break;
 
         case "P2:foul7":
             player1score-=7;
-            player1=false;
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
             } else {
                 hideColoursShowRed();
             }
+            changePlayer(true);
             break;
         // FOULS UNDO PLAYER 1
 
         case "P1:foul4":
             player2score-=4;
-            player1=true;
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
             } else {
                 hideColoursShowRed();
             }
+            changePlayer(true);
             break;
 
         case "P1:foul5":
             player2score-=5;
-            player1=true;
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
             } else {
                 hideColoursShowRed();
             }
+            changePlayer(true);
             break;
 
         case "P1:foul6":
             player2score-=6;
-            player1=true;
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
             } else {
                 hideColoursShowRed();
             }
+            changePlayer(true);
             break;
 
         case "P1:foul7":
             player2score-=7;
-            player1=true;
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
             } else {
                 hideColoursShowRed();
             }
-
+            changePlayer(true);
             break;
          // Final ball count undo //
         case "P1:yellowpot_final":
