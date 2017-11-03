@@ -37,7 +37,7 @@ body { padding:0; margin: 0; }
     display: inline-block;
     background-color: #009345;
     height: 25px;
-    margin: auto;
+    margin-left: 5%;
     margin-top: 15px;
     padding-top: 10px;
     text-align: center;
@@ -65,7 +65,7 @@ body { padding:0; margin: 0; }
 
 
 .menu {
-    margin-top:100px;
+    margin-top:70px;
     display: flex;
     flex-direction: column;
 }
