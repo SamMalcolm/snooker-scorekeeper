@@ -11,7 +11,15 @@ function _All(x) {
 var urlParams = new URLSearchParams(window.location.search);
 
 var reds = urlParams.get('reds');
+var player1name = urlParams.get('p1name');
+var player2name = urlParams.get('p2name');
 
+if (player1name) {
+    _("#player1").innerHTML = "<h1>"+player1name+"</h1>";
+}
+if (player2name) {
+    _("#player2").innerHTML = "<h1>"+player2name+"</h1>";
+}
 console.log(reds);
 
 var player1 = true;
