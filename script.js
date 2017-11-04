@@ -35,7 +35,6 @@ var gameEnd = false;
 var finalColour=false;
 
 function initiate() {
-
     hideColoursShowRed();
     updateRemaining();
 }
@@ -834,9 +833,9 @@ _(".button_game#foul4").addEventListener("click", function() { foulMove(4) }, fa
 _(".button_game#foul5").addEventListener("click", function() { foulMove(5) }, false);
 _(".button_game#foul6").addEventListener("click", function() { foulMove(6) }, false);
 _(".button_game#foul7").addEventListener("click", function() { foulMove(7) }, false);
-_(".exit_modal").addEventListener("click", function() {
-    window.location.replace("index.html");
-});
+//_(".exit_modal").addEventListener("click", function() {
+  //  window.location.replace("index.html");
+//});
 
 /* Initlal Functions */
 window.onLoad = initiate();
