@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div class="button_game" id="undo" style="margin-top: 12px;">Undo (beta)</div>
+    <div class="button_game" id="undo" style="margin-top: 12px;">Undo</div>
     <div class="button_game" id="foul4" style="margin-top: 12px;">Foul (+4)</div>
     <div class="button_game" id="foul5">Foul (+5)</div>
     <div class="button_game" id="foul6">Foul (+6)</div>
@@ -62,6 +62,8 @@
     <div class="footer_content">
     &copy; Sam Malcolm 2017</div>
     </div>
+    <a href="index.html" onclick="if (confirm('Are you sure? current game progress will be lost')) commentDelete(1); return false" class="home-btn">&laquo;</a>
+    <!----
     <div class="modal" data-modal="1" style="display:none;">
 
     <div class="modal_content">
@@ -71,6 +73,7 @@
 
 
     </div>
+    --->
 
 
 <script src="script.js" defer></script>

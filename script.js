@@ -42,6 +42,9 @@ function initiate() {
 
 function respottedBlack() {
     // HANDLE EVENT OF TIE
+    alert('This is a tie, respot the black and shoot from the baulk line');
+    changePlayer(false);
+    finalBallsDisplay("black");
 }
 
 function updateRemaining() {
@@ -145,6 +148,31 @@ function updateScore() {
 }
 
 function endGame() {
+    if (player1name) {
+        var alertp1 = player1name;
+    } else {
+       var alertp1 = "Player 1";
+    }
+    if (player2name) {
+        var alertp2 = player2name;
+    } else {
+       var alertp2 = "Player 2";
+    }
+
+    if (player1score>player2score) {
+        var difference = player1score-player2score;
+        alert(`Congratulations ${alertp1}
+
+                ${alertp1} beat ${alertp2} by ${difference} points
+                with a score of ${player1score}`);
+    } else {
+        var difference = player2score-player1score;
+        alert(`Congratulations ${alertp2}
+
+                ${alertp2} beat ${alertp1} by ${difference} points
+                with a score of ${player2score}`);
+    }
+    /*
     _(".modal").style.display = "block";
     if (player1score>player2score) {
         var player1Wins = "<h1>Congratulations Player 1!</h1>";
@@ -157,6 +185,7 @@ function endGame() {
         player2Wins += "<h3>Player 2 has beaten player 1 by "+(player2score-player1score)+" points!</h3>"
         _(".modal_content").innerHTML += player2Wins;
     }
+    */
 }
 
 function foulMove(i) {
@@ -311,8 +340,12 @@ function undoMove() {
 
         case "P2:foul4":
             player1score-=4;
+            if (undoLog.length !== 1) {
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
             } else {
                 hideColoursShowRed();
             }
@@ -321,8 +354,12 @@ function undoMove() {
 
         case "P2:foul5":
             player1score-=5;
+            if (undoLog.length !== 1) {
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
             } else {
                 hideColoursShowRed();
             }
@@ -331,8 +368,12 @@ function undoMove() {
 
         case "P2:foul6":
             player1score-=6;
+            if (undoLog.length !== 1) {
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
             } else {
                 hideColoursShowRed();
             }
@@ -356,8 +397,12 @@ function undoMove() {
 
         case "P1:foul4":
             player2score-=4;
+            if (undoLog.length !== 1) {
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
             } else {
                 hideColoursShowRed();
             }
@@ -366,8 +411,12 @@ function undoMove() {
 
         case "P1:foul5":
             player2score-=5;
+            if (undoLog.length !== 1) {
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
             } else {
                 hideColoursShowRed();
             }
@@ -376,8 +425,12 @@ function undoMove() {
 
         case "P1:foul6":
             player2score-=6;
+            if (undoLog.length !== 1) {
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
             } else {
                 hideColoursShowRed();
             }
@@ -386,8 +439,12 @@ function undoMove() {
 
         case "P1:foul7":
             player2score-=7;
+            if (undoLog.length !== 1) {
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
             } else {
                 hideColoursShowRed();
             }
