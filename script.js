@@ -341,8 +341,12 @@ function undoMove() {
 
         case "P2:foul7":
             player1score-=7;
+            if (undoLog.length !== 1) {
             if (undoLog[undoLog.length-2].includes("red")) {
                 hideRedShowColours();
+            } else {
+                hideColoursShowRed();
+            }
             } else {
                 hideColoursShowRed();
             }
