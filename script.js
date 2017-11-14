@@ -7,10 +7,15 @@ function _(x) {
 function _All(x) {
     return document.querySelectorAll(x);
 }
-
 var urlParams = new URLSearchParams(window.location.search);
 
-var reds = urlParams.get('reds');
+function setRedCountInit() {
+    return urlParams.get('reds');
+}
+var reds=setRedCountInit();
+
+setRedCountInit();
+
 var player1name = urlParams.get('p1name');
 var player2name = urlParams.get('p2name');
 
@@ -21,7 +26,8 @@ if (player2name) {
     _("#player2").innerHTML = "<h1>"+player2name+"</h1>";
 }
 console.log(reds);
-
+var player1frames=0;
+var player2frames=0;
 var player1 = true;
 var player1history = [];
 var player2history = [];
@@ -47,6 +53,9 @@ function respottedBlack() {
 }
 
 function updateRemaining() {
+    if (reds>0) {
+        remaining=(8*reds)+27;
+    }
     _(".remaining").innerHTML = remaining;
 }
 
@@ -113,6 +122,27 @@ function changePlayer(undo) {
     freeBall=false;
 }
 
+function updateFrames() {
+
+}
+
+function setReds() {
+    document.querySelector(".red_count").innerHTML = reds;
+}
+
+setReds();
+
+function adjustRedCount(incr) {
+    if (incr) {
+        reds++;
+        setReds();
+    } else {
+        reds--;
+        setReds();
+    }
+    updateRemaining();
+}
+
 function setLogBalls() {
     _("#player1log").innerHTML = "";
     _("#player2log").innerHTML = "";
@@ -159,18 +189,33 @@ function endGame() {
     }
 
     if (player1score>player2score) {
+        player1frames++;
         var difference = player1score-player2score;
         alert(`Congratulations ${alertp1}
-
-                ${alertp1} beat ${alertp2} by ${difference} points
-                with a score of ${player1score}`);
+${alertp1} beat ${alertp2} by ${difference} points
+with a score of ${player1score}
+Press OK for new frame`);
     } else {
+        player2frames++;
         var difference = player2score-player1score;
         alert(`Congratulations ${alertp2}
-
-                ${alertp2} beat ${alertp1} by ${difference} points
-                with a score of ${player2score}`);
+${alertp2} beat ${alertp1} by ${difference} points
+with a score of ${player2score}
+Press OK for new frame`);
     }
+
+    player1history=[];
+    player2history=[];
+    undoLog = [];
+    player1score=0;
+    player2score=0;
+    reds = setRedCountInit();
+    updateRemaining();
+    updateScore();
+    setDifference();
+    setLogBalls();
+
+    updateFrames();
     /*
     _(".modal").style.display = "block";
     if (player1score>player2score) {
@@ -836,6 +881,16 @@ _(".button_game#foul7").addEventListener("click", function() { foulMove(7) }, fa
 //_(".exit_modal").addEventListener("click", function() {
   //  window.location.replace("index.html");
 //});
+
+document.querySelector(".red_incr").addEventListener("click", function () {
+    adjustRedCount(true);
+}, false);
+document.querySelector(".red_decr").addEventListener("click", function () {
+    if (reds>=1) {
+    adjustRedCount(false);
+    }
+}, false);
+
 
 /* Initlal Functions */
 window.onLoad = initiate();
