@@ -15,15 +15,19 @@ function setRedCountInit() {
 var reds=setRedCountInit();
 
 setRedCountInit();
-
+var games=1;
 var player1name = urlParams.get('p1name');
 var player2name = urlParams.get('p2name');
 
 if (player1name) {
     _("#player1").innerHTML = "<h1>"+player1name+"</h1>";
+} else {
+    player1name = "Player 1";
 }
 if (player2name) {
     _("#player2").innerHTML = "<h1>"+player2name+"</h1>";
+} else {
+    player2name = "Player 2";
 }
 console.log(reds);
 var player1frames=0;
@@ -43,6 +47,12 @@ var finalColour=false;
 function initiate() {
     hideColoursShowRed();
     updateRemaining();
+    if (_("#player1 h1").innerHTML.length>11) {
+        _("#player1 h1").style.fontSize = "16px";
+    }
+    if (_("#player2 h1").innerHTML.length>11) {
+        _("#player2 h1").style.fontSize = "16px";
+    }
 }
 
 function respottedBlack() {
@@ -123,9 +133,12 @@ function changePlayer(undo) {
 }
 
 function updateFrames() {
-
+    _("#player1 h1").innerHTML = player1name+":"+player1frames;
+    _("#player2 h1").innerHTML = player2name+":"+player2frames;
 }
-
+function isOdd(num) {
+    return num%2;
+}
 function setReds() {
     document.querySelector(".red_count").innerHTML = reds;
 }
@@ -177,6 +190,7 @@ function updateScore() {
 }
 
 function endGame() {
+
     if (player1name) {
         var alertp1 = player1name;
     } else {
@@ -187,7 +201,7 @@ function endGame() {
     } else {
        var alertp2 = "Player 2";
     }
-
+    games++;
     if (player1score>player2score) {
         player1frames++;
         var difference = player1score-player2score;
@@ -203,7 +217,16 @@ ${alertp2} beat ${alertp1} by ${difference} points
 with a score of ${player2score}
 Press OK for new frame`);
     }
-
+    if (!isOdd(games) && player1) {
+        changePlayer();
+    }
+    if (isOdd(games) && !player1) {
+        changePlayer();
+    }
+    freeBall = false;
+    finalBalls = false;
+    gameEnd = false;
+    finalColour=false;
     player1history=[];
     player2history=[];
     undoLog = [];
@@ -214,22 +237,8 @@ Press OK for new frame`);
     updateScore();
     setDifference();
     setLogBalls();
-
+    hideColoursShowRed();
     updateFrames();
-    /*
-    _(".modal").style.display = "block";
-    if (player1score>player2score) {
-        var player1Wins = "<h1>Congratulations Player 1!</h1>";
-        player1Wins += "<h3>With a score of "+player1score+"</h3>";
-        player1Wins += "<h3>Player 1 has beaten player 2 by "+(player1score-player2score)+" points!</h3>"
-        _(".modal_content").innerHTML += player1Wins;
-    } else {
-        var player2Wins = "<h1>Congratulations Player 2!</h1>";
-        player2Wins += "<h3>With a score of "+player2score+"</h3>";
-        player2Wins += "<h3>Player 2 has beaten player 1 by "+(player2score-player1score)+" points!</h3>"
-        _(".modal_content").innerHTML += player2Wins;
-    }
-    */
 }
 
 function foulMove(i) {
