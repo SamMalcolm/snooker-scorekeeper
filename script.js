@@ -7,6 +7,7 @@ function _(x) {
 function _All(x) {
     return document.querySelectorAll(x);
 }
+var foulFree = false;
 var urlParams = new URLSearchParams(window.location.search);
 
 function setRedCountInit() {
@@ -105,7 +106,11 @@ function changePlayer(undo) {
 
     _("#player1").classList.toggle("current_player");
     _("#player2").classList.toggle("current_player");
-
+    if (foulFree) {
+        reds--;
+        updateRemaining();
+        foulFree=false;
+    }
     if (undo == false) {
     undoLog.push("player_change");
     }
@@ -239,6 +244,7 @@ Press OK for new frame`);
     setLogBalls();
     hideColoursShowRed();
     updateFrames();
+    foulFree = false;
 }
 
 function foulMove(i) {
@@ -665,6 +671,20 @@ function undoMove() {
             hideRedShowColours();
             player2history.pop();
             break;
+        case "P1:redpot_foul_free_pot":
+            player1score -= 1;
+            reds++;
+            foulFree=true;
+            hideColoursShowRed();
+            player1history.pop();
+            break;
+        case "P2:redpot_foul_free_pot":
+            player2score -= 1;
+            reds++;
+            foulFree=true;
+            hideColoursShowRed();
+            player2history.pop();
+            break;
 
     }
             updateRemaining();
@@ -672,6 +692,7 @@ function undoMove() {
             setDifference();
             setLogBalls();
             undoLog.pop();
+            setReds();
 
 
 }
@@ -701,6 +722,22 @@ var ballValues = {
         }
         remaining -= 8;
     }
+    if (foulFree) {
+        foulFree=false;
+        if (player1) {
+
+        player1score += value;
+        player1history.push(ballValues[value]);
+        undoLog.push("P1:"+ballValues[value]+"foul_free_pot");
+
+    } else {
+
+        player2score += value;
+        player2history.push(ballValues[value]);
+        undoLog.push("P2:"+ballValues[value]+"foul_free_pot");
+
+    }
+    } else {
 
     if (player1) {
 
@@ -715,6 +752,7 @@ var ballValues = {
         undoLog.push("P2:"+ballValues[value]+"pot");
 
     }
+    }
     if (freeBall) {
         hideRedShowColours();
     }
@@ -723,7 +761,8 @@ var ballValues = {
     setLogBalls();
     updateRemaining();
     setDifference();
-
+    foulFree=false;
+    setReds();
 }
 
 function freeBallPot(value) {
@@ -747,7 +786,7 @@ var ballValues = {
         player2score+=value;
         player2history.push(ballValues[value]);
     }
-
+    foulFree=false;
     finalBalls = true;
     freeBall=false;
     remaining=27;
@@ -756,6 +795,7 @@ var ballValues = {
     setLogBalls();
     updateScore();
     updateRemaining();
+    setReds();
 }
 
 function finalPot(value) {
@@ -795,7 +835,7 @@ var ballValues = {
         setLogBalls();
         updateScore();
         updateRemaining();
-
+        foulFree=false;
 
 
 }
@@ -875,7 +915,14 @@ _(".ball#brown").addEventListener("click", function() {
 }, false);
 
 /* Foul and undo */
-_("#endbreak").addEventListener("click", function() {changePlayer(false)}, false);
+_("#freeball").addEventListener("click", function() {
+    if (!freeBall) {
+    reds++;
+    freeBall=true;
+    hideColoursShowRed();
+    updateRemaining();
+    }
+}, false);
 _("#player1").addEventListener("click",function() {
     if (!player1) { changePlayer(); }
 },false);
