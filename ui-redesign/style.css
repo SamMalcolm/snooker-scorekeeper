@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background:linear-gradient(45deg,#009245,#22b573);
+    color:white;
+}
+
+.pm1 {
+    left: 0;
+}
+
+.pm2 {
+    right: 0;
+}
+
+.point-meter {
+    position: fixed;
+    width: 2px;
+    height: 100%;
+    background-color: grey;
+    z-index:1000;
+}
+
+.snookers-req {
+    width: 100%;
+    height: 56%;
+    background-color: orange;
+}
+
+.points-scored {
+    width: 100%;
+    height: 56%;
+    background-color: blue;
+}
+
+.score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+.player{
+    padding:5px;
+    border-left:1px grey solid;
+}
+.name {
+    font-size:12px;
+}
+.handicap {
+    font-size:6px;
+}
+.score {
+    font-size:30px;
+}
+.menu { display:grid;
+grid-template-columns: 1fr 1fr;
+    grid-gap:5px
+}
+
+.ball-menu {
+    grid-column: 1/3;
+    display:grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding:5px;
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+.ball {
+    background-color:red;
+    width:30px;
+    height:30px;
+    border-radius:15px;
+}
+
+.ball.red {
+    grid-column: 1/2;
+    grid-row:1/3;
+}
+.button {
+    font-size:7px;
+    padding:5px;
+    background-color: grey;
+    border-radius:10px;
+    text-align: center;
+
+}
+
+.log {
+    background-color: white;
+    height:40px;
+    position:fixed;
+    width:10px;
+    bottom:0;
+    left:0;
+    overflow-x: scroll;
+}
+
+
+.svg-text {
+    fill:#FFFFFF;
+	font-family:'MyriadPro-Regular';
+	font-size:9.3147px;
+}
+
+.blue-fill {
+    fill:#0000ff;
+}
+.p1svg {
+    width:15px;
+    position:fixed;
+    top:0;
+}
+
+.orange-fill {
+    fill:orange;
+}
+.p1svg-2 {
+    width:15px;
+    position:fixed;
+    top:31.5%;
+}
+
+.responsive-ball-menu {
+    position:relative;
+    width:100%;
+    padding-bottom:20%;
+    grid-column: 1/3;
+}
