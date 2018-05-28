@@ -1,8 +1,8 @@
 body {
     margin: 0;
     font-family: sans-serif;
-    background:linear-gradient(45deg,#009245,#22b573);
-    color:white;
+    background: linear-gradient(45deg, #009245, #22b573);
+    color: white;
 }
 
 .pm1 {
@@ -18,7 +18,7 @@ body {
     width: 2px;
     height: 100%;
     background-color: grey;
-    z-index:1000;
+    z-index: 1000;
 }
 
 .snookers-req {
@@ -38,91 +38,178 @@ body {
     grid-template-columns: 1fr 1fr;
 
 }
-.player{
-    padding:5px;
-    border-left:1px grey solid;
+
+.player {
+    text-align: center;
+    padding: 5px;
+    border-left: 1px darkgreen solid;
+    border-bottom: 1px darkgreen solid;
 }
+
 .name {
-    font-size:12px;
+    font-size: 12px;
 }
+
 .handicap {
-    font-size:6px;
+    font-size: 6px;
 }
+
 .score {
-    font-size:30px;
+    font-size: 30px;
 }
-.menu { display:grid;
-grid-template-columns: 1fr 1fr;
-    grid-gap:5px
+
+.menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
 }
 
 .ball-menu {
     grid-column: 1/3;
-    display:grid;
+    display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    padding:5px;
-    position:absolute;
-    width:100%;
-    height:100%;
-}
-.ball {
-    background-color:red;
-    width:30px;
-    height:30px;
-    border-radius:15px;
+    width: 90%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 5%;
+    grid-gap: 5px;
+    margin: auto;
+
 }
 
-.ball.red {
-    grid-column: 1/2;
-    grid-row:1/3;
-}
-.button {
-    font-size:7px;
-    padding:5px;
-    background-color: grey;
-    border-radius:10px;
+.ball {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid red;
     text-align: center;
 
 }
 
+.ball.redmenu {
+    grid-column: 1/2;
+    grid-row: 1/3;
+}
+
+.button {
+    font-size: 7px;
+    padding: 5px;
+    background-color: grey;
+    border-radius: 10px;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+
+}
+
 .log {
-    background-color: white;
-    height:40px;
-    position:fixed;
-    width:10px;
-    bottom:0;
-    left:0;
+    background-color: #f2f2f2;
+    height: 40px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
     overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 
 .svg-text {
-    fill:#FFFFFF;
-	font-family:'MyriadPro-Regular';
-	font-size:9.3147px;
+    fill: #FFFFFF;
+    font-family: 'MyriadPro-Regular';
+    font-size: 9.3147px;
 }
 
 .blue-fill {
-    fill:#0000ff;
+    fill: #0000ff;
 }
+
 .p1svg {
-    width:15px;
-    position:fixed;
-    top:0;
+    width: 15px;
+    position: fixed;
+    top: 0;
 }
 
 .orange-fill {
-    fill:orange;
+    fill: orange;
 }
+
 .p1svg-2 {
-    width:15px;
-    position:fixed;
-    top:31.5%;
+    width: 15px;
+    position: fixed;
+    top: 31.5%;
 }
 
 .responsive-ball-menu {
-    position:relative;
-    width:100%;
-    padding-bottom:20%;
+    margin-top: 5px;
+    position: relative;
+    width: 100%;
+    padding-bottom: 35%;
     grid-column: 1/3;
+    margin-bottom: 5px;
+}
+
+.logball {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 15px;
+    margin: 5px;
+
+}
+
+.red {
+    background-color: red;
+}
+
+.black {
+    background-color: black;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.green {
+    background-color: green;
+}
+
+.brown {
+    background-color: brown;
+}
+
+.pink {
+    background-color: pink;
+}
+
+.p1 {
+    color: black;
+    position: absolute;
+    font-size: 4px;
+    margin-left: 2px;
+}
+
+.p2 {
+    color: black;
+    position: absolute;
+    font-size: 4px;
+    margin-left: 2px;
+}
+
+svg {
+    z-index: 1000;
+}
+
+.log-top-layer {
+    max-height: 20px;
+    display: block;
+}
+
+.log-bottom-layer {
+    max-height: 20px;
 }
