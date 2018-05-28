@@ -155,8 +155,10 @@ body {
     width: 10px;
     height: 10px;
     border-radius: 15px;
-    margin: 5px;
-
+    margin: 5px 0 0 5px;
+    color: white;
+    text-align: center;
+    font-size:4px;
 }
 
 .red {
@@ -185,6 +187,10 @@ body {
 
 .pink {
     background-color: pink;
+}
+.foul {
+    background-color: darkgrey;
+
 }
 
 .p1 {
