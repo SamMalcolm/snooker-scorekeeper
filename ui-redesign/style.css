@@ -156,9 +156,7 @@ body {
     height: 10px;
     border-radius: 15px;
     margin: 5px 0 0 5px;
-    color: white;
-    text-align: center;
-    font-size:4px;
+
 }
 
 .red {
@@ -189,7 +187,13 @@ body {
     background-color: pink;
 }
 .foul {
+    position: absolute;
+    padding-top:2px;
     background-color: darkgrey;
+        color: white;
+    text-align: center;
+    font-size:5px;
+    height:9px;
 
 }
 
