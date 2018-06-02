@@ -223,3 +223,27 @@ svg {
 .log-bottom-layer {
     max-height: 20px;
 }
+
+.difference_counter{
+    position:fixed;
+    width:50%;
+    bottom:40px;
+    left:0;
+    background-color: orange;
+    height:20px;
+    font-size:7px;
+}
+.difference_counter div {
+    display: inline-block;
+}
+.diff_label {
+    margin-left:7.5px;
+}
+
+.diff_pts, .remain_pts {
+    background-color:#333;
+    width:20px;
+    padding:3px;
+}
+
+
