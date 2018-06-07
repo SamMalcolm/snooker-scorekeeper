@@ -3,6 +3,11 @@ body {
     font-family: sans-serif;
     background: linear-gradient(45deg, #009245, #22b573);
     color: white;
+    height: 100%;
+}
+
+html {
+    height: 100%;
 }
 
 .pm1 {
@@ -17,7 +22,7 @@ body {
     position: fixed;
     width: 2px;
     height: 100%;
-    background-color: grey;
+    background-color: yellow;
     z-index: 1000;
 }
 
@@ -30,7 +35,7 @@ body {
 .points-scored {
     width: 100%;
     height: 56%;
-    background-color: blue;
+    background-color: brown;
 }
 
 .score-grid {
@@ -68,34 +73,37 @@ body {
     grid-column: 1/3;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    width: 90%;
-    height: 100%;
-    position: absolute;
+/*    width: 90%;*/
+/*    height: 100%;*/
+/*    position: absolute;*/
+/*
     top: 0;
     left: 5%;
+*/
     grid-gap: 5px;
     margin: auto;
 
 }
 
 .ball {
-    width: 100%;
-    height: 100%;
+
     border-radius: 50%;
     border: 1px solid red;
     text-align: center;
+    padding: 17%;
 
 }
 
 .ball.redmenu {
-    grid-column: 1/2;
     grid-row: 1/3;
+    padding-top: 30%;
+
 }
 
 .button {
     font-size: 7px;
     padding: 5px;
-    background-color: grey;
+    background-color: #333;
     border-radius: 10px;
     text-align: center;
     width: 80%;
@@ -142,10 +150,13 @@ body {
 }
 
 .responsive-ball-menu {
+
+/*    position: relative;*/
+/*    padding-bottom:35%;*/
+    margin:auto;
     margin-top: 5px;
-    position: relative;
     width: 100%;
-    padding-bottom: 35%;
+    max-width:300px;
     grid-column: 1/3;
     margin-bottom: 5px;
 }
@@ -157,6 +168,34 @@ body {
     border-radius: 15px;
     margin: 5px 0 0 5px;
 
+}
+
+.redborder {
+    border-color: red;
+}
+
+.yellowborder {
+    border-color: yellow;
+}
+
+.greenborder {
+    border-color: green;
+}
+
+.brownborder {
+    border-color: brown;
+}
+
+.blueborder {
+    border-color: blue;
+}
+
+.pinkborder {
+    border-color: pink;
+}
+
+.blackborder {
+    border-color: black;
 }
 
 .red {
@@ -186,14 +225,15 @@ body {
 .pink {
     background-color: pink;
 }
+
 .foul {
     position: absolute;
-    padding-top:2px;
+    padding-top: 2px;
     background-color: darkgrey;
-        color: white;
+    color: white;
     text-align: center;
-    font-size:5px;
-    height:9px;
+    font-size: 5px;
+    height: 9px;
 
 }
 
@@ -224,26 +264,35 @@ svg {
     max-height: 20px;
 }
 
-.difference_counter{
-    position:fixed;
-    width:50%;
-    bottom:40px;
-    left:0;
+.difference_counter {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    position: fixed;
+    width: 70%;
+    bottom: 40px;
+    left: 0;
     background-color: orange;
-    height:20px;
-    font-size:7px;
+    height: 20px;
+    font-size: 7px;
 }
+
 .difference_counter div {
     display: inline-block;
 }
-.diff_label {
-    margin-left:7.5px;
+
+.diff_label,
+.remain_label {
+    padding: 2px;
+    padding-top: 6px;
+    text-align: center;
+
 }
 
-.diff_pts, .remain_pts {
-    background-color:#333;
-    width:20px;
-    padding:3px;
+.diff_pts,
+.remain_pts {
+    background-color: #333;
+    text-align: center;
+    padding: 3px;
+    padding-top: 6px;
+    height: 11px;
 }
-
-
