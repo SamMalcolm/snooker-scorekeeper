@@ -10,17 +10,16 @@
 
 <body>
 
-    <div class="point-meter pm1">
-        <div class="snookers-req">
-            <div class="points-scored"></div>
-        </div>
+    <div class="point-meter pm1">120
+        <div class="snookers-req">123</div>
+        <div class="points-scored">123</div>
     </div>
-    <div class="point-meter pm2">
-        <div class="snookers-req">
-            <div class="points-scored"></div>
-        </div>
+    <div class="point-meter point-meter-inactive pm2">
+        <div class="snookers-req"></div>
+        <div class="points-scored"></div>
     </div>
 
+<!--
     <svg class="p1svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 30 10" style="enable-background:new 0 0 30 10;">
 <polygon class="blue-fill" points="0,0 28.5,0 28.5,9.5 8.6,9.5 "/>
 <text transform="matrix(1 0 0 1 10.1875 7.7969)" class="svg-text">147</text>
@@ -29,6 +28,7 @@
 <polygon class="orange-fill" points="0,0 28.5,0 28.5,9.5 8.6,9.5 "/>
 <text transform="matrix(1 0 0 1 10.1875 7.7969)" class="svg-text">74</text>
 </svg>
+-->
     <!--
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 30 10" style="enable-background:new 0 0 30 10;" >
@@ -43,14 +43,14 @@
             <div class="handicap">+10</div>
             <div class="score">36</div>
         </div>
-        <div class="player">
+        <div class="player inactive-player">
             <div class="name">John Doe</div>
             <div class="handicap">+10</div>
             <div class="score">36</div>
         </div>
     </div>
     <div class="menu">
-        <div class="responsive-ball-menu">
+    <div class="ball-menu-container">
             <div class="ball-menu">
                 <div class="ball redmenu redborder">+1</div>
                 <div class="ball yellowborder">+2</div>
@@ -60,7 +60,7 @@
                 <div class="ball pinkborder">+6</div>
                 <div class="ball blackborder">+7</div>
             </div>
-        </div>
+</div>
         <div class="button">Foul (+4)</div>
         <div class="button">Foul (+5)</div>
         <div class="button">Foul (+6)</div>
