@@ -15,7 +15,8 @@ body {
     background: linear-gradient(45deg, #009245, #22b573);
     color: white;
     height: 100%;
-    overflow:hidden;
+    overflow-x:hidden;
+
 }
 
 html {
@@ -323,4 +324,9 @@ svg {
 }
 .inactive-player {
     color:green;
+}
+
+.spacer-resp {
+    height:70px;
+    width:100%;
 }
