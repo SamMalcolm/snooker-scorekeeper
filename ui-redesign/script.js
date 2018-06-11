@@ -5,7 +5,7 @@ var redoLog = [],
     player1active,
     remaining = 147,
     difference = 0,
-    reds = 15,
+    reds = 5,
     snookersRequired = 0,
     framesPlayed = 0,
     player1break,
@@ -73,7 +73,7 @@ function loopThroughLog() {
     player1score = 0;
     player2score = 0;
     remaining = 0;
-    reds = 15;
+    reds = 5;
     currentBreak = 0;
     for (let i = 0; i < log.length; i++) {
         if (log.length > 2 && i > 2) {
@@ -204,13 +204,20 @@ function populateUI() {
                 document.querySelector(".redmenu").classList.add("disabled");
             }
         } else {
-            if (currentBreak > 1 && log[log.length - 1].indexOf("RED") !== -1) {
+            console.log("reds = "+reds);
+            if (log[log.length - 2].indexOf("RED") !== -1 && currentBreak > 1) {
                 for (let i = 0; i < balls.length; i++) {
                     balls[i].classList.add("disabled");
                 }
-                document.querySelector(".redmenu").classList.remove("disabled");
-            } else {
-                if (log[log.length - 1].indexOf("RED") !== -1 && currentBreak == 0) {
+                document.querySelector(".yellowborder").classList.remove("disabled");
+            }
+            if (log[log.length - 1].indexOf("RED") !== -1 && player1active == log[log.length - 1].substr(0, 1)) {
+                for (let i = 0; i < balls.length; i++) {
+                    balls[i].classList.remove("disabled");
+                }
+                document.querySelector(".redmenu").classList.add("disabled");
+
+                if (log[log.length - 1].indexOf("RED") !== -1 && player1active !== log[log.length - 1].substr(0, 1)) {
                     for (let i = 0; i < balls.length; i++) {
                         balls[i].classList.add("disabled");
                     }
@@ -245,10 +252,10 @@ function populateUI() {
                         balls[i].classList.add("disabled");
                     }
                     document.querySelector(".blackborder").classList.remove("disabled");
-                }
+
             }
         }
-
+        }
     } else {
         for (let i = 0; i < balls.length; i++) {
             balls[i].classList.add("disabled");
