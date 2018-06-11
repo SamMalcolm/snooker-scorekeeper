@@ -284,7 +284,7 @@ init();
 
 document.querySelector(".redmenu").addEventListener("click", function () {
     if (reds > 0) {
-        if (player1active) {
+        if (player1active == "0") {
             addToLog("0_RED");
         } else {
             addToLog("1_RED");
@@ -294,42 +294,42 @@ document.querySelector(".redmenu").addEventListener("click", function () {
     }
 });
 document.querySelector(".pinkborder").addEventListener("click", function () {
-    if (player1active) {
+    if (player1active == "0") {
         addToLog("0_PINK");
     } else {
         addToLog("1_PINK");
     }
 });
 document.querySelector(".blackborder").addEventListener("click", function () {
-    if (player1active) {
+    if (player1active == "0") {
         addToLog("0_BLACK");
     } else {
         addToLog("1_BLACK");
     }
 });
 document.querySelector(".blueborder").addEventListener("click", function () {
-    if (player1active) {
+    if (player1active == "0") {
         addToLog("0_BLUE");
     } else {
         addToLog("1_BLUE");
     }
 });
 document.querySelector(".brownborder").addEventListener("click", function () {
-    if (player1active) {
+    if (player1active == "0") {
         addToLog("0_BROWN");
     } else {
         addToLog("1_BROWN");
     }
 });
 document.querySelector(".greenborder").addEventListener("click", function () {
-    if (player1active) {
+    if (player1active == "0") {
         addToLog("0_GREEN");
     } else {
         addToLog("1_GREEN");
     }
 });
 document.querySelector(".yellowborder").addEventListener("click", function () {
-    if (player1active) {
+    if (player1active == "0") {
         addToLog("0_YELLOW");
     } else {
         addToLog("1_YELLOW");
