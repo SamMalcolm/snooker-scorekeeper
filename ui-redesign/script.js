@@ -10,6 +10,9 @@ var redoLog = [],
     framesPlayed = 0,
     player1break,
     freeBallActive = false,
+    currentBreak = 0;
+    p1hb,
+    p2hb,
     p1name,
     p2name,
     p1hc,
@@ -22,7 +25,7 @@ var redoLog = [],
     balls = document.querySelectorAll(".ball");
 
 function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
+    return Math.floor(Math.random() * Math.floor(max));
 }
 
 
@@ -55,7 +58,7 @@ function init() {
         }
     }
 
-    for (let i=0;i<balls.length;i++) {
+    for (let i = 0; i < balls.length; i++) {
         balls[i].classList.add("disabled");
     }
 
@@ -70,74 +73,82 @@ function loopThroughLog() {
     player1score = 0;
     player2score = 0;
     remaining = 0;
-    reds=15;
+    reds = 15;
     for (let i = 0; i < log.length; i++) {
+
+
         // Balls Potted
         if (log[i].indexOf("RED") !== -1) {
             reds--;
-            remaining = (8*reds + 34);
-            if (log[i].substr(0,1) == "1") {
+            remaining = (8 * reds + 34);
+            if (log[i].substr(0, 1) == "1") {
                 player1score++;
             } else {
                 player2score++;
             }
         }
         if (log[i].indexOf("PINK") !== -1) {
-            remaining = (8*reds + 27);
-            if (log[i].substr(0,1) == "1") {
-                player1score = player1score+6;
+            remaining = (8 * reds + 27);
+            if (log[i].substr(0, 1) == "1") {
+                player1score = player1score + 6;
             } else {
-                player2score = player2score+6;
+                player2score = player2score + 6;
             }
         }
         if (log[i].indexOf("BLACK") !== -1) {
-            remaining = (8*reds + 27);
-            if (log[i].substr(0,1) == "1") {
-                player1score = player1score+7;
+            remaining = (8 * reds + 27);
+            if (log[i].substr(0, 1) == "1") {
+                player1score = player1score + 7;
             } else {
-                player2score = player2score+7;
+                player2score = player2score + 7;
             }
         }
         if (log[i].indexOf("BLUE") !== -1) {
-            remaining = (8*reds + 27);
-            if (log[i].substr(0,1) == "1") {
-                player1score = player1score+5;
+            remaining = (8 * reds + 27);
+            if (log[i].substr(0, 1) == "1") {
+                player1score = player1score + 5;
             } else {
-                player2score = player2score+5;
+                player2score = player2score + 5;
             }
         }
         if (log[i].indexOf("BROWN") !== -1) {
-            remaining = (8*reds + 27);
-            if (log[i].substr(0,1) == "1") {
-                player1score = player1score+4;
+            remaining = (8 * reds + 27);
+            if (log[i].substr(0, 1) == "1") {
+                player1score = player1score + 4;
             } else {
-                player2score = player2score+4;
+                player2score = player2score + 4;
             }
         }
         if (log[i].indexOf("GREEN") !== -1) {
-            remaining = (8*reds + 27);
-            if (log[i].substr(0,1) == "1") {
-                player1score = player1score+3;
+            remaining = (8 * reds + 27);
+            if (log[i].substr(0, 1) == "1") {
+                player1score = player1score + 3;
             } else {
-                player2score = player2score+3;
+                player2score = player2score + 3;
             }
         }
         if (log[i].indexOf("YELLOW") !== -1) {
-            remaining = (8*reds + 27);
-            if (log[i].substr(0,1) == "1") {
-                player1score = player1score+2;
+            remaining = (8 * reds + 27);
+            if (log[i].substr(0, 1) == "1") {
+                player1score = player1score + 2;
             } else {
-                player2score = player2score+2;
+                player2score = player2score + 2;
             }
         }
         //BALLS POTTED END
+
         // FOULS
-
+        if (log[i].indexOf("FOUL") !== -1) {
+            var value = log[i][log[i].length - 1];
+            if (log[i].substr(0, 1) == "0") {
+                player1score = player1score + parseInt(value);
+                player1active = true;
+            } else {
+                player2score = player2score + parseInt(value);
+                player1active = false;
+            }
+        }
         //FOULS END
-
-
-
-
 
 
 
@@ -152,23 +163,70 @@ function loopThroughLog() {
 function populateUI() {
 
     if (log.length > 0) {
-    if (log[log.length - 1].indexOf("RED") == -1) {
+        if (reds !== 0) {
+            if (log[log.length - 1].indexOf("RED") == -1) {
 
-        for (let i=0;i<balls.length;i++) {
-            balls[i].classList.add("disabled");
-        }
-        document.querySelector(".redmenu").classList.remove("disabled");
+                for (let i = 0; i < balls.length; i++) {
+                    balls[i].classList.add("disabled");
+                }
+                document.querySelector(".redmenu").classList.remove("disabled");
 
-    } else {
-        for (let i=0;i<balls.length;i++) {
-            if (balls[i].classList.contains("disabled")) {
-                balls[i].classList.remove("disabled");
+            } else {
+                for (let i = 0; i < balls.length; i++) {
+                    if (balls[i].classList.contains("disabled")) {
+                        balls[i].classList.remove("disabled");
+                    }
+                }
+                document.querySelector(".redmenu").classList.add("disabled");
+            }
+        } else {
+            if (currentBreak > 1 && log[log.length - 1].indexOf("RED") !== -1) {
+                for (let i = 0; i < balls.length; i++) {
+                    balls[i].classList.add("disabled");
+                }
+                document.querySelector(".redmenu").classList.remove("disabled");
+            } else {
+                if (log[log.length - 1].indexOf("RED") !== -1 && currentBreak == 0) {
+                    for (let i = 0; i < balls.length; i++) {
+                        balls[i].classList.add("disabled");
+                    }
+                    document.querySelector(".yellowborder").classList.remove("disabled");
+                }
+                if (log[log.length - 1].indexOf("YELLOW") !== -1) {
+                    for (let i = 0; i < balls.length; i++) {
+                        balls[i].classList.add("disabled");
+                    }
+                    document.querySelector(".greenborder").classList.remove("disabled");
+                }
+                if (log[log.length - 1].indexOf("GREEN") !== -1) {
+                    for (let i = 0; i < balls.length; i++) {
+                        balls[i].classList.add("disabled");
+                    }
+                    document.querySelector(".brownborder").classList.remove("disabled");
+                }
+                if (log[log.length - 1].indexOf("BROWN") !== -1) {
+                    for (let i = 0; i < balls.length; i++) {
+                        balls[i].classList.add("disabled");
+                    }
+                    document.querySelector(".blueborder").classList.remove("disabled");
+                }
+                if (log[log.length - 1].indexOf("BLUE") !== -1) {
+                    for (let i = 0; i < balls.length; i++) {
+                        balls[i].classList.add("disabled");
+                    }
+                    document.querySelector(".pinkborder").classList.remove("disabled");
+                }
+                if (log[log.length - 1].indexOf("PINK") !== -1) {
+                    for (let i = 0; i < balls.length; i++) {
+                        balls[i].classList.add("disabled");
+                    }
+                    document.querySelector(".blackborder").classList.remove("disabled");
+                }
             }
         }
-        document.querySelector(".redmenu").classList.add("disabled");
-    }
+
     } else {
-        for (let i=0;i<balls.length;i++) {
+        for (let i = 0; i < balls.length; i++) {
             balls[i].classList.add("disabled");
         }
         document.querySelector(".redmenu").classList.remove("disabled");
@@ -183,8 +241,8 @@ function populateUI() {
 
 
     //set width of log based on content
-    logTopLayer.style.width = (divsInTopLog.length+1)*20+20+"px";
-    logBottomLayer.style.width = (divsInBottomLog.length+1)*20+20+"px";
+    logTopLayer.style.width = (divsInTopLog.length + 1) * 20 + 20 + "px";
+    logBottomLayer.style.width = (divsInBottomLog.length + 1) * 20 + 20 + "px";
 }
 
 function addToLog(logItem) {
@@ -200,53 +258,72 @@ function undo() {
 
 init();
 
-document.querySelector(".redmenu").addEventListener("click",function() {
+document.querySelector(".redmenu").addEventListener("click", function () {
+    if (reds > 0) {
     if (player1active) {
         addToLog("0_RED");
     } else {
         addToLog("1_RED");
     }
+    } else {
+        console.log("no more reds");
+    }
 });
-document.querySelector(".pinkborder").addEventListener("click",function() {
+document.querySelector(".pinkborder").addEventListener("click", function () {
     if (player1active) {
         addToLog("0_PINK");
     } else {
         addToLog("1_PINK");
     }
 });
-document.querySelector(".blackborder").addEventListener("click",function() {
+document.querySelector(".blackborder").addEventListener("click", function () {
     if (player1active) {
         addToLog("0_BLACK");
     } else {
         addToLog("1_BLACK");
     }
 });
-document.querySelector(".blueborder").addEventListener("click",function() {
+document.querySelector(".blueborder").addEventListener("click", function () {
     if (player1active) {
         addToLog("0_BLUE");
     } else {
         addToLog("1_BLUE");
     }
 });
-document.querySelector(".brownborder").addEventListener("click",function() {
+document.querySelector(".brownborder").addEventListener("click", function () {
     if (player1active) {
         addToLog("0_BROWN");
     } else {
         addToLog("1_BROWN");
     }
 });
-document.querySelector(".greenborder").addEventListener("click",function() {
+document.querySelector(".greenborder").addEventListener("click", function () {
     if (player1active) {
         addToLog("0_GREEN");
     } else {
         addToLog("1_GREEN");
     }
 });
-document.querySelector(".yellowborder").addEventListener("click",function() {
+document.querySelector(".yellowborder").addEventListener("click", function () {
     if (player1active) {
         addToLog("0_YELLOW");
     } else {
         addToLog("1_YELLOW");
     }
 });
-document.querySelector(".undo").addEventListener("click",undo,false);
+
+var foulButtons = document.querySelectorAll(".foulBallButton");
+for (let i = 0; i < foulButtons.length; i++) {
+    foulButtons[i].addEventListener("click", function () {
+        console.log("foul clicked");
+        var foulValue = this.getAttribute("data-value");
+        if (player1active == "0") {
+            addToLog("0_FOUL_" + foulValue);
+        } else {
+            addToLog("1_FOUL_" + foulValue);
+        }
+    });
+}
+
+
+document.querySelector(".undo").addEventListener("click", undo, false);
