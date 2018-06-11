@@ -330,3 +330,8 @@ svg {
     height:70px;
     width:100%;
 }
+
+.disabled {
+    border-color:dimgray !important;
+    color: darkslategray;
+}
