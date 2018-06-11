@@ -10,7 +10,7 @@ var redoLog = [],
     framesPlayed = 0,
     player1break,
     freeBallActive = false,
-    currentBreak = 0;
+    currentBreak = 0,
     p1hb,
     p2hb,
     p1name,
