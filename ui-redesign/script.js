@@ -6,7 +6,8 @@ var redoLog = [],
     remaining = 147,
     difference = 0,
     reds = 5,
-    snookersRequired = 0,
+    p1snookersRequired = 0,
+    p2snookersRequired = 0,
     framesPlayed = 0,
     player1break,
     freeBallActive = false,
@@ -24,6 +25,9 @@ var redoLog = [],
     urlParams = new URLSearchParams(window.location.search),
     balls = document.querySelectorAll(".ball");
 
+function endGame() {
+
+}
 
 function hideRedShowColours() {
     for (let i = 0; i < balls.length; i++) {
@@ -102,11 +106,11 @@ function loopThroughLog() {
     for (let i = 0; i < log.length; i++) {
         if (log.length > 2 && i > 2) {
             if (log[i].substr(0, 1) == log[i - 1].substr(0, 1)) {
-                if (player1active = "1" && currentBreak > p1hb) {
+                if (player1active == "1" && currentBreak > p1hb) {
                     p1hb = currentBreak;
 
                 } else {
-                    if (player1active = "0" && currentBreak > p2hb) {
+                    if (player1active == "0" && currentBreak > p2hb) {
                         p2hchb = currentBreak;
                     }
                 }
@@ -131,6 +135,9 @@ function loopThroughLog() {
         if (log[i].indexOf("PINK") !== -1) {
             currentBreak = currentBreak + 6;
             remaining = (8 * reds + 27);
+            if (reds == 0 && log[log.length - 1]) {
+                remaining = 7;
+            }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 6;
             } else {
@@ -140,15 +147,24 @@ function loopThroughLog() {
         if (log[i].indexOf("BLACK") !== -1) {
             currentBreak = currentBreak + 7;
             remaining = (8 * reds + 27);
+            if (reds == 0 && log[log.length - 1]) {
+                remaining = 0;
+            }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 7;
             } else {
                 player2score = player2score + 7;
             }
+            if (remaining == 0) {
+                endGame();
+            }
         }
         if (log[i].indexOf("BLUE") !== -1) {
             currentBreak = currentBreak + 5;
             remaining = (8 * reds + 27);
+            if (reds == 0 && log[log.length - 1]) {
+                remaining = 13;
+            }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 5;
             } else {
@@ -158,6 +174,9 @@ function loopThroughLog() {
         if (log[i].indexOf("BROWN") !== -1) {
             currentBreak = currentBreak + 4;
             remaining = (8 * reds + 27);
+            if (reds == 0 && log[log.length - 1]) {
+                remaining = 18;
+            }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 4;
             } else {
@@ -167,6 +186,9 @@ function loopThroughLog() {
         if (log[i].indexOf("GREEN") !== -1) {
             currentBreak = currentBreak + 3;
             remaining = (8 * reds + 27);
+            if (reds == 0 && log[log.length - 1]) {
+                remaining = 22;
+            }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 3;
             } else {
@@ -176,6 +198,9 @@ function loopThroughLog() {
         if (log[i].indexOf("YELLOW") !== -1) {
             currentBreak = currentBreak + 2;
             remaining = (8 * reds + 27);
+            if (reds == 0 && log[log.length - 1]) {
+                remaining = 25;
+            }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 2;
             } else {
@@ -195,6 +220,9 @@ function loopThroughLog() {
                 player2score = player2score + parseInt(value);
                 player1active = false;
             }
+            if (remaining < 7) {
+                endGame();
+            }
         }
         //FOULS END
 
@@ -209,6 +237,30 @@ function loopThroughLog() {
 }
 
 function populateUI() {
+    if (player1score > player2score) {
+        difference = player1score - player2score;
+    } else {
+        difference = player2score - player1score;
+    }
+    if (player1active == "0" && player1score > player2score) {
+        p2snookersRequired = ((remaining - difference) / 2) + 1;
+        if (p1snookersRequired < 0) {
+            var p1snookeramount = Math.ceil(Math.abs(p1snookersRequired) / 4);
+            console.log("p1 snooker quant: " + p1snookeramount);
+        }
+
+    }
+        if (player1active == "1" && player1score < player2score) {
+            p1snookersRequired = ((remaining - difference) / 2) + 1;
+            if (p2snookersRequired < 0) {
+                var p2snookeramount = Math.ceil(Math.abs(p2snookersRequired) / 4);
+                console.log("p2 snooker quant: " + p2snookeramount);
+            }
+        }
+
+    console.log("difference: " + difference)
+    console.log("p2 Snookers req: " + p2snookersRequired);
+    console.log("p1 Snookers req: " + p1snookersRequired);
 
     if (log.length > 0) {
         if (reds !== 0) {
@@ -254,7 +306,7 @@ function populateUI() {
     } else {
         hideColoursShowRed();
     }
-    //check active player and adjust accordingly
+
 
     //populate scores
 
@@ -262,7 +314,33 @@ function populateUI() {
 
     //populate snookers required meters
 
+    //check active player and adjust accordingly
+    if (player1active == "1") {
+        document.querySelector(".point-meter.pm2").classList.remove("point-meter-inactive");
+        document.querySelector(".point-meter.pm1").classList.add("point-meter-inactive");
+        document.querySelector(".point-meter.pm1 .snookers-req").innerHTML = "";
+        document.querySelector(".point-meter.pm1 .max-score").innerHTML = "";
+        document.querySelector(".point-meter.pm1 .points-scored").innerHTML = "";
+        document.querySelector("html").style.paddingLeft = "0";
+        document.querySelector("html").style.paddingRight = "13px";
+        document.querySelector(".log").style.left="2px";
+        document.querySelector(".log").style.left="2px";
+        document.querySelector(".difference_counter").style.removeProperty("left");
+        document.querySelector(".difference_counter").style.right = "15px";
 
+
+    } else {
+        document.querySelector(".point-meter.pm2").classList.add("point-meter-inactive");
+        document.querySelector(".point-meter.pm1").classList.remove("point-meter-inactive");
+        document.querySelector(".point-meter.pm2 .snookers-req").innerHTML = "";
+        document.querySelector(".point-meter.pm2 .max-score").innerHTML = "";
+        document.querySelector(".point-meter.pm2 .points-scored").innerHTML = "";
+        document.querySelector("html").style.paddingLeft = "13px";
+        document.querySelector("html").style.paddingRight = "0";
+        document.querySelector(".log").style.left="15px";
+        document.querySelector(".difference_counter").style.removeProperty("right");
+        document.querySelector(".difference_counter").style.left = "15px";
+    }
     //set width of log based on content
     logTopLayer.style.width = (divsInTopLog.length + 1) * 20 + 20 + "px";
     logBottomLayer.style.width = (divsInBottomLog.length + 1) * 20 + 20 + "px";
@@ -350,3 +428,18 @@ for (let i = 0; i < foulButtons.length; i++) {
 
 
 document.querySelector(".undo").addEventListener("click", undo, false);
+var playerDivs = document.querySelectorAll(".player");
+for (let i=0;i<playerDivs.length;i++) {
+    playerDivs[i].addEventListener("click",function() {
+    if (player1active == "1") {
+        player1active = "0";
+        playerDivs[0].classList.remove("inactive-player");
+        playerDivs[1].classList.add("inactive-player");
+    } else {
+        player1active = "1";
+        playerDivs[1].classList.remove("inactive-player");
+        playerDivs[0].classList.add("inactive-player");
+    }
+        populateUI();
+}, false);
+}
