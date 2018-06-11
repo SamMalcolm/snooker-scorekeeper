@@ -11,8 +11,8 @@ var redoLog = [],
     player1break,
     freeBallActive = false,
     currentBreak = 0,
-    p1hb,
-    p2hb,
+    p1hb = 0,
+    p2hb = 0,
     p1name,
     p2name,
     p1hc,
@@ -74,11 +74,28 @@ function loopThroughLog() {
     player2score = 0;
     remaining = 0;
     reds = 15;
+    currentBreak = 0;
     for (let i = 0; i < log.length; i++) {
+        if (log.length > 2 && i > 2) {
+            if (log[i].substr(0, 1) == log[i - 1].substr(0, 1)) {
+                if (player1active = "1" && currentBreak > p1hb) {
+                    p1hb = currentBreak;
+
+                } else {
+                    if (player1active = "0" && currentBreak > p2hb) {
+                        p2hchb = currentBreak;
+                    }
+                }
+
+            } else {
+                currentBreak = 0;
+            }
+        }
 
 
         // Balls Potted
         if (log[i].indexOf("RED") !== -1) {
+            currentBreak++;
             reds--;
             remaining = (8 * reds + 34);
             if (log[i].substr(0, 1) == "1") {
@@ -88,6 +105,7 @@ function loopThroughLog() {
             }
         }
         if (log[i].indexOf("PINK") !== -1) {
+            currentBreak = currentBreak + 6;
             remaining = (8 * reds + 27);
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 6;
@@ -96,6 +114,7 @@ function loopThroughLog() {
             }
         }
         if (log[i].indexOf("BLACK") !== -1) {
+            currentBreak = currentBreak + 7;
             remaining = (8 * reds + 27);
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 7;
@@ -104,6 +123,7 @@ function loopThroughLog() {
             }
         }
         if (log[i].indexOf("BLUE") !== -1) {
+            currentBreak = currentBreak + 5;
             remaining = (8 * reds + 27);
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 5;
@@ -112,6 +132,7 @@ function loopThroughLog() {
             }
         }
         if (log[i].indexOf("BROWN") !== -1) {
+            currentBreak = currentBreak + 4;
             remaining = (8 * reds + 27);
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 4;
@@ -120,6 +141,7 @@ function loopThroughLog() {
             }
         }
         if (log[i].indexOf("GREEN") !== -1) {
+            currentBreak = currentBreak + 3;
             remaining = (8 * reds + 27);
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 3;
@@ -128,6 +150,7 @@ function loopThroughLog() {
             }
         }
         if (log[i].indexOf("YELLOW") !== -1) {
+            currentBreak = currentBreak + 2;
             remaining = (8 * reds + 27);
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 2;
@@ -139,6 +162,7 @@ function loopThroughLog() {
 
         // FOULS
         if (log[i].indexOf("FOUL") !== -1) {
+            currentBreak = 0;
             var value = log[i][log[i].length - 1];
             if (log[i].substr(0, 1) == "0") {
                 player1score = player1score + parseInt(value);
@@ -156,7 +180,7 @@ function loopThroughLog() {
     }
 
     console.log(log);
-
+    console.log(currentBreak);
     populateUI();
 }
 
@@ -260,11 +284,11 @@ init();
 
 document.querySelector(".redmenu").addEventListener("click", function () {
     if (reds > 0) {
-    if (player1active) {
-        addToLog("0_RED");
-    } else {
-        addToLog("1_RED");
-    }
+        if (player1active) {
+            addToLog("0_RED");
+        } else {
+            addToLog("1_RED");
+        }
     } else {
         console.log("no more reds");
     }
