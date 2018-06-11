@@ -24,6 +24,30 @@ var redoLog = [],
     urlParams = new URLSearchParams(window.location.search),
     balls = document.querySelectorAll(".ball");
 
+
+function hideRedShowColours() {
+    for (let i = 0; i < balls.length; i++) {
+                    balls[i].classList.remove("disabled");
+                }
+                document.querySelector(".redmenu").classList.add("disabled");
+}
+
+function hideColoursShowRed() {
+    for (let i = 0; i < balls.length; i++) {
+                    balls[i].classList.add("disabled");
+                }
+                document.querySelector(".redmenu").classList.remove("disabled");
+}
+
+function showSpecifcColour(color) {
+    for (let i = 0; i < balls.length; i++) {
+                    balls[i].classList.add("disabled");
+                }
+                document.querySelector("."+color+"border").classList.remove("disabled");
+}
+
+
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -189,73 +213,44 @@ function populateUI() {
     if (log.length > 0) {
         if (reds !== 0) {
             if (log[log.length - 1].indexOf("RED") == -1) {
-
-                for (let i = 0; i < balls.length; i++) {
-                    balls[i].classList.add("disabled");
-                }
-                document.querySelector(".redmenu").classList.remove("disabled");
-
+                hideColoursShowRed();
             } else {
-                for (let i = 0; i < balls.length; i++) {
-                    if (balls[i].classList.contains("disabled")) {
-                        balls[i].classList.remove("disabled");
-                    }
-                }
-                document.querySelector(".redmenu").classList.add("disabled");
+                hideRedShowColours();
             }
         } else {
+
             console.log("reds = "+reds);
-            if (log[log.length - 2].indexOf("RED") !== -1 && currentBreak > 1) {
-                for (let i = 0; i < balls.length; i++) {
-                    balls[i].classList.add("disabled");
-                }
-                document.querySelector(".yellowborder").classList.remove("disabled");
-            }
             if (log[log.length - 1].indexOf("RED") !== -1 && player1active == log[log.length - 1].substr(0, 1)) {
-                for (let i = 0; i < balls.length; i++) {
-                    balls[i].classList.remove("disabled");
-                }
-                document.querySelector(".redmenu").classList.add("disabled");
+                hideRedShowColours();
+            } else {
+
+            if (log[log.length - 2].indexOf("RED") !== -1 && currentBreak > 1) {
+                showSpecifcColour("yellow");
+            } else {
+
 
                 if (log[log.length - 1].indexOf("RED") !== -1 && player1active !== log[log.length - 1].substr(0, 1)) {
-                    for (let i = 0; i < balls.length; i++) {
-                        balls[i].classList.add("disabled");
-                    }
-                    document.querySelector(".yellowborder").classList.remove("disabled");
+                    showSpecifcColour("yellow");
                 }
                 if (log[log.length - 1].indexOf("YELLOW") !== -1) {
-                    for (let i = 0; i < balls.length; i++) {
-                        balls[i].classList.add("disabled");
-                    }
-                    document.querySelector(".greenborder").classList.remove("disabled");
+                    showSpecifcColour("green");
                 }
                 if (log[log.length - 1].indexOf("GREEN") !== -1) {
-                    for (let i = 0; i < balls.length; i++) {
-                        balls[i].classList.add("disabled");
-                    }
-                    document.querySelector(".brownborder").classList.remove("disabled");
+                    showSpecifcColour("brown");
                 }
                 if (log[log.length - 1].indexOf("BROWN") !== -1) {
-                    for (let i = 0; i < balls.length; i++) {
-                        balls[i].classList.add("disabled");
-                    }
-                    document.querySelector(".blueborder").classList.remove("disabled");
+                    showSpecifcColour("blue");
                 }
                 if (log[log.length - 1].indexOf("BLUE") !== -1) {
-                    for (let i = 0; i < balls.length; i++) {
-                        balls[i].classList.add("disabled");
-                    }
-                    document.querySelector(".pinkborder").classList.remove("disabled");
+                    showSpecifcColour("pink");
                 }
                 if (log[log.length - 1].indexOf("PINK") !== -1) {
-                    for (let i = 0; i < balls.length; i++) {
-                        balls[i].classList.add("disabled");
-                    }
-                    document.querySelector(".blackborder").classList.remove("disabled");
-
+                    showSpecifcColour("black");
+                }
+            }
             }
         }
-        }
+
     } else {
         for (let i = 0; i < balls.length; i++) {
             balls[i].classList.add("disabled");
