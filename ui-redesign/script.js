@@ -27,23 +27,23 @@ var redoLog = [],
 
 function hideRedShowColours() {
     for (let i = 0; i < balls.length; i++) {
-                    balls[i].classList.remove("disabled");
-                }
-                document.querySelector(".redmenu").classList.add("disabled");
+        balls[i].classList.remove("disabled");
+    }
+    document.querySelector(".redmenu").classList.add("disabled");
 }
 
 function hideColoursShowRed() {
     for (let i = 0; i < balls.length; i++) {
-                    balls[i].classList.add("disabled");
-                }
-                document.querySelector(".redmenu").classList.remove("disabled");
+        balls[i].classList.add("disabled");
+    }
+    document.querySelector(".redmenu").classList.remove("disabled");
 }
 
 function showSpecifcColour(color) {
     for (let i = 0; i < balls.length; i++) {
-                    balls[i].classList.add("disabled");
-                }
-                document.querySelector("."+color+"border").classList.remove("disabled");
+        balls[i].classList.add("disabled");
+    }
+    document.querySelector("." + color + "border").classList.remove("disabled");
 }
 
 
@@ -219,43 +219,40 @@ function populateUI() {
             }
         } else {
 
-            console.log("reds = "+reds);
+            console.log("reds = " + reds);
             if (log[log.length - 1].indexOf("RED") !== -1 && player1active == log[log.length - 1].substr(0, 1)) {
                 hideRedShowColours();
             } else {
 
-            if (log[log.length - 2].indexOf("RED") !== -1 && currentBreak > 1) {
-                showSpecifcColour("yellow");
-            } else {
-
-
-                if (log[log.length - 1].indexOf("RED") !== -1 && player1active !== log[log.length - 1].substr(0, 1)) {
+                if (log[log.length - 2].indexOf("RED") !== -1 && currentBreak > 1) {
                     showSpecifcColour("yellow");
+                } else {
+
+
+                    if (log[log.length - 1].indexOf("RED") !== -1 && player1active !== log[log.length - 1].substr(0, 1)) {
+                        showSpecifcColour("yellow");
+                    }
+                    if (log[log.length - 1].indexOf("YELLOW") !== -1) {
+                        showSpecifcColour("green");
+                    }
+                    if (log[log.length - 1].indexOf("GREEN") !== -1) {
+                        showSpecifcColour("brown");
+                    }
+                    if (log[log.length - 1].indexOf("BROWN") !== -1) {
+                        showSpecifcColour("blue");
+                    }
+                    if (log[log.length - 1].indexOf("BLUE") !== -1) {
+                        showSpecifcColour("pink");
+                    }
+                    if (log[log.length - 1].indexOf("PINK") !== -1) {
+                        showSpecifcColour("black");
+                    }
                 }
-                if (log[log.length - 1].indexOf("YELLOW") !== -1) {
-                    showSpecifcColour("green");
-                }
-                if (log[log.length - 1].indexOf("GREEN") !== -1) {
-                    showSpecifcColour("brown");
-                }
-                if (log[log.length - 1].indexOf("BROWN") !== -1) {
-                    showSpecifcColour("blue");
-                }
-                if (log[log.length - 1].indexOf("BLUE") !== -1) {
-                    showSpecifcColour("pink");
-                }
-                if (log[log.length - 1].indexOf("PINK") !== -1) {
-                    showSpecifcColour("black");
-                }
-            }
             }
         }
 
     } else {
-        for (let i = 0; i < balls.length; i++) {
-            balls[i].classList.add("disabled");
-        }
-        document.querySelector(".redmenu").classList.remove("disabled");
+        hideColoursShowRed();
     }
     //check active player and adjust accordingly
 
