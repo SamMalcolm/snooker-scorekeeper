@@ -3,13 +3,13 @@ var redoLog = [],
     player1score = 0,
     player2score = 0,
     player1active,
-    remaining = 147,
     difference = 0,
     reds = 5,
+    remaining = reds*8+27,
     p1snookersRequired = 0,
     p2snookersRequired = 0,
     framesPlayed = 0,
-    player1break,
+    player1break = 0,
     freeBallActive = false,
     currentBreak = 0,
     p1hb = 0,
@@ -23,7 +23,19 @@ var redoLog = [],
     divsInTopLog = document.querySelectorAll(".log-top-layer div"),
     divsInBottomLog = document.querySelectorAll(".log-bottom-layer div"),
     urlParams = new URLSearchParams(window.location.search),
-    balls = document.querySelectorAll(".ball");
+    balls = document.querySelectorAll(".ball"),
+    p1name = urlParams.get("p1n"),
+    p2name = urlParams.get("p2n");
+
+function addToBallLog(playerID, colour) {
+    if (playerID == "1") {
+        document.querySelector(".log .log-top-layer").innerHTML += "<div class=\""+colour+" logball\"></div>";
+        document.querySelector(".log .log-bottom-layer").innerHTML += "<div class=\"logball\"></div>";
+    } else {
+        document.querySelector(".log .log-bottom-layer").innerHTML += "<div class=\""+colour+" logball\"></div>";
+        document.querySelector(".log .log-top-layer").innerHTML += "<div class=\"logball\"></div>";
+    }
+}
 
 function endGame() {
 
@@ -58,11 +70,31 @@ function getRandomInt(max) {
 
 
 function init() {
+    document.querySelector(".log-top-layer").innerHTML = "<div class=\"p1\">"+p1name+"</div><div class=\"logball\"></div>";
+    document.querySelector(".log-bottom-layer").innerHTML = "<div class=\"p1\">"+p2name+"</div>";
     //populate names and handicap
     if (urlParams.get("hc")) {
         p1hc = urlParams.get("p1hc");
         p2hc = urlParams.get("p2hc");
+        if (parseInt(p2hc) > 0) {
+            document.querySelector(".player[data-player='2'] .handicap").innerHTML = "+"+p2hc;
+        } else {
+            document.querySelector(".player[data-player='2'] .handicap").innerHTML = "-"+p2hc;
+        }
+        if (parseInt(p1hc) > 0) {
+            document.querySelector(".player[data-player='1'] .handicap").innerHTML = "+"+p1hc;
+        } else {
+            document.querySelector(".player[data-player='1'] .handicap").innerHTML = "-"+p1hc;
+        }
+        document.querySelector(".player[data-player='1'] .score").innerHTML = p1hc;
+        document.querySelector(".player[data-player='2'] .score").innerHTML = p2hc;
+
     }
+
+    document.querySelector(".player[data-player='1'] .name").innerHTML = p1name;
+    document.querySelector(".player[data-player='2'] .name").innerHTML = p2name;
+
+
 
     //add frame count if multiple frames palyed
 
@@ -96,6 +128,8 @@ function init() {
 }
 
 function loopThroughLog() {
+    document.querySelector(".log-top-layer").innerHTML = "<div class=\"p1\">"+p1name+"</div>";
+    document.querySelector(".log-bottom-layer").innerHTML = "<div class=\"p1\">"+p2name+"</div>";
     //calculate scores during loop and also populate log then populate ui with scores
     //reset values to zero?
     player1score = 0;
@@ -128,8 +162,10 @@ function loopThroughLog() {
             remaining = (8 * reds + 34);
             if (log[i].substr(0, 1) == "1") {
                 player1score++;
+                addToBallLog("1","red");
             } else {
                 player2score++;
+                addToBallLog("0","red");
             }
         }
         if (log[i].indexOf("PINK") !== -1) {
@@ -140,8 +176,10 @@ function loopThroughLog() {
             }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 6;
+                addToBallLog("1","pink");
             } else {
                 player2score = player2score + 6;
+                addToBallLog("0","pink");
             }
         }
         if (log[i].indexOf("BLACK") !== -1) {
@@ -152,8 +190,10 @@ function loopThroughLog() {
             }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 7;
+                addToBallLog("1","black");
             } else {
                 player2score = player2score + 7;
+                addToBallLog("0","black");
             }
             if (remaining == 0) {
                 endGame();
@@ -167,8 +207,10 @@ function loopThroughLog() {
             }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 5;
+                addToBallLog("1","blue");
             } else {
                 player2score = player2score + 5;
+                addToBallLog("0","blue");
             }
         }
         if (log[i].indexOf("BROWN") !== -1) {
@@ -179,8 +221,10 @@ function loopThroughLog() {
             }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 4;
+                addToBallLog("1","brown");
             } else {
                 player2score = player2score + 4;
+                addToBallLog("0","brown");
             }
         }
         if (log[i].indexOf("GREEN") !== -1) {
@@ -191,8 +235,10 @@ function loopThroughLog() {
             }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 3;
+                addToBallLog("1","green");
             } else {
                 player2score = player2score + 3;
+                addToBallLog("0","green");
             }
         }
         if (log[i].indexOf("YELLOW") !== -1) {
@@ -203,8 +249,10 @@ function loopThroughLog() {
             }
             if (log[i].substr(0, 1) == "1") {
                 player1score = player1score + 2;
+                addToBallLog("1","yellow");
             } else {
                 player2score = player2score + 2;
+                addToBallLog("0","yellow");
             }
         }
         //BALLS POTTED END
@@ -230,17 +278,44 @@ function loopThroughLog() {
 
 
     }
-
+    if (p1hc && p2hc) {
+        player1score = player1score+parseInt(p1hc);
+        player2score = player2score+parseInt(p2hc);
+    }
     console.log(log);
     console.log(currentBreak);
     populateUI();
 }
 
 function populateUI() {
+    document.querySelector(".stats p").innerHTML = "Reds: "+reds;
+    if (player1active == "1") {
+        document.querySelector(".player[data-player='1']").classList.remove("inactive-player");
+        document.querySelector(".player[data-player='2']").classList.add("inactive-player");
+    } else {
+        document.querySelector(".player[data-player='1']").classList.add("inactive-player");
+        document.querySelector(".player[data-player='2']").classList.remove("inactive-player");
+    }
+    document.querySelector(".player[data-player='1'] .score").innerHTML = player1score;
+    document.querySelector(".player[data-player='2'] .score").innerHTML = player2score;
     if (player1score > player2score) {
         difference = player1score - player2score;
+        if (player1active == "0") {
+            document.querySelector(".diff_label").innerHTML = "Behind";
+            document.querySelector(".diff_pts").innerHTML = difference;
+        } else {
+            document.querySelector(".diff_label").innerHTML = "Ahead";
+            document.querySelector(".diff_pts").innerHTML = difference;
+        }
     } else {
         difference = player2score - player1score;
+        if (player1active == "1") {
+            document.querySelector(".diff_label").innerHTML = "Behind";
+            document.querySelector(".diff_pts").innerHTML = difference;
+        } else {
+            document.querySelector(".diff_label").innerHTML = "Ahead";
+            document.querySelector(".diff_pts").innerHTML = difference;
+        }
     }
     if (player1active == "0" && player1score > player2score) {
         p2snookersRequired = ((remaining - difference) / 2) + 1;
@@ -307,15 +382,12 @@ function populateUI() {
         hideColoursShowRed();
     }
 
-
-    //populate scores
-
     //populate remaining
-
+    document.querySelector(".remain_pts").innerHTML = remaining;
     //populate snookers required meters
 
     //check active player and adjust accordingly
-    if (player1active == "1") {
+    if (player1active == "0") {
         document.querySelector(".point-meter.pm2").classList.remove("point-meter-inactive");
         document.querySelector(".point-meter.pm1").classList.add("point-meter-inactive");
         document.querySelector(".point-meter.pm1 .snookers-req").innerHTML = "";
@@ -433,13 +505,9 @@ for (let i=0;i<playerDivs.length;i++) {
     playerDivs[i].addEventListener("click",function() {
     if (player1active == "1") {
         player1active = "0";
-        playerDivs[0].classList.remove("inactive-player");
-        playerDivs[1].classList.add("inactive-player");
     } else {
         player1active = "1";
-        playerDivs[1].classList.remove("inactive-player");
-        playerDivs[0].classList.add("inactive-player");
     }
-        populateUI();
+    populateUI();
 }, false);
 }
