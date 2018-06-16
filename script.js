@@ -408,7 +408,12 @@ function populateUI() {
             if (log[log.length - 1].indexOf("RED") == -1) {
                 hideColoursShowRed();
             } else {
-                hideRedShowColours();
+                if (log[log.length - 1].indexOf("0") == -1 && player1active == "1" || log[log.length - 1].indexOf("1") == -1 && player1active == "0") {
+                    hideRedShowColours();
+                } else {
+                    hideColoursShowRed();
+                }
+
             }
         } else {
 
@@ -497,8 +502,10 @@ function undo() {
 
 init();
 
-document.querySelector(".redmenu").addEventListener("click", function () {
-    if (reds > 0) {
+document.querySelector(".redmenu").addEventListener("click", function (e) {
+
+    if (!e.target.classList.contains("disabled")) {
+       if (reds > 0) {
         if (player1active == "0") {
             addToLog("0_RED");
         } else {
@@ -507,47 +514,60 @@ document.querySelector(".redmenu").addEventListener("click", function () {
     } else {
         console.log("no more reds");
     }
+
+    }
 });
-document.querySelector(".pinkborder").addEventListener("click", function () {
+document.querySelector(".pinkborder").addEventListener("click", function (e) {
+    if (!e.target.classList.contains("disabled")) {
     if (player1active == "0") {
         addToLog("0_PINK");
     } else {
         addToLog("1_PINK");
     }
+    }
 });
-document.querySelector(".blackborder").addEventListener("click", function () {
+document.querySelector(".blackborder").addEventListener("click", function (e) {
+    if (!e.target.classList.contains("disabled")) {
     if (player1active == "0") {
         addToLog("0_BLACK");
     } else {
         addToLog("1_BLACK");
     }
+    }
 });
-document.querySelector(".blueborder").addEventListener("click", function () {
+document.querySelector(".blueborder").addEventListener("click", function (e) {
+
+    if (!e.target.classList.contains("disabled")) {
     if (player1active == "0") {
         addToLog("0_BLUE");
     } else {
         addToLog("1_BLUE");
-    }
+    }}
 });
-document.querySelector(".brownborder").addEventListener("click", function () {
+document.querySelector(".brownborder").addEventListener("click", function (e) {
+
+    if (!e.target.classList.contains("disabled")) {
     if (player1active == "0") {
         addToLog("0_BROWN");
     } else {
         addToLog("1_BROWN");
-    }
+    }}
 });
-document.querySelector(".greenborder").addEventListener("click", function () {
+document.querySelector(".greenborder").addEventListener("click", function (e) {
+    if (!e.target.classList.contains("disabled")) {
     if (player1active == "0") {
         addToLog("0_GREEN");
     } else {
         addToLog("1_GREEN");
-    }
+    }}
 });
-document.querySelector(".yellowborder").addEventListener("click", function () {
+document.querySelector(".yellowborder").addEventListener("click", function (e) {
+    if (!e.target.classList.contains("disabled")) {
     if (player1active == "0") {
         addToLog("0_YELLOW");
     } else {
         addToLog("1_YELLOW");
+    }
     }
 });
 
