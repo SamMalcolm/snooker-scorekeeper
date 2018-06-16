@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="game" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, inital-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="point-meter pm1">
+        <div class="max-score"></div>
+        <div class="snookers-req"></div>
+        <div class="points-scored"></div>
+    </div>
+    <div class="point-meter point-meter-inactive pm2">
+        <div class="max-score"></div>
+        <div class="snookers-req"></div>
+        <div class="points-scored"></div>
+    </div>
+
+    <div class="score-grid">
+        <div class="player" data-player="1">
+            <div class="name">John Doe</div>
+            <div class="handicap">+10</div>
+            <div class="score">36</div>
+            <div class="frames">Frames: 0</div>
+        </div>
+        <div class="player inactive-player" data-player="2">
+            <div class="name">John Doe</div>
+            <div class="handicap">+10</div>
+            <div class="score">36</div>
+            <div class="frames">Frames: 0</div>
+        </div>
+    </div>
+    <div class="menu">
+    <div class="ball-menu-container">
+            <div class="ball-menu">
+                <div class="ball redmenu redborder">+1</div>
+                <div class="ball yellowborder">+2</div>
+                <div class="ball greenborder">+3</div>
+                <div class="ball brownborder">+4</div>
+                <div class="ball blueborder">+5</div>
+                <div class="ball pinkborder">+6</div>
+                <div class="ball blackborder">+7</div>
+            </div>
+</div>
+        <div class="button foulBallButton" data-value="4">Foul (+4)</div>
+        <div class="button foulBallButton" data-value="5">Foul (+5)</div>
+        <div class="button foulBallButton" data-value="6">Foul (+6)</div>
+        <div class="button foulBallButton" data-value="7">Foul (+7)</div>
+        <div class="button">FreeBall</div>
+        <div class="button undo">Undo</div>
+        <div class="button concede">Concede</div>
+    </div>
+    <div class="stats">
+        <p>Reds: </p>
+<!--        <p class="snookers">Snookers Required: </p>-->
+
+
+    </div>
+
+    <div class="spacer-resp"></div>
+    <div class="difference_counter">
+        <div class="diff_label">Behind</div>
+        <div class="diff_pts">102</div>
+        <div class="remain_label">Remaining</div>
+        <div class="remain_pts">582</div>
+    </div>
+
+    <div class="log">
+        <div class="log-top-layer">
+            <div class="p1">P1</div>
+            <div class="red logball"></div>
+            <div class="black logball"></div>
+            <div class="red logball"></div>
+            <div class="blue logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+        </div>
+        <div class="log-bottom-layer">
+            <div class="p2">P2</div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="logball"></div>
+            <div class="red logball"></div>
+            <div class="yellow logball"></div>
+            <div class="red logball"></div>
+            <div class="brown logball"></div>
+            <div class="red logball"></div>
+            <div class="pink logball"></div>
+            <div class="red logball"></div>
+            <div class="foul logball">F4</div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

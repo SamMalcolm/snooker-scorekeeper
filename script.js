@@ -1,10 +1,11 @@
-var redoLog = [],
+var urlParams = new URLSearchParams(window.location.search),
+    redoLog = [],
     log = [],
     player1score = 0,
     player2score = 0,
     player1active,
     difference = 0,
-    reds = 5,
+    reds = urlParams.get("reds"),
     remaining = reds*8+27,
     p1snookersRequired = 0,
     p2snookersRequired = 0,
@@ -18,11 +19,14 @@ var redoLog = [],
     p2name,
     p1hc,
     p2hc,
+    p1max,
+    p2max,
+    player1frames = 0,
+    player2frames = 0,
     logTopLayer = document.querySelector(".log-top-layer"),
     logBottomLayer = document.querySelector(".log-bottom-layer"),
     divsInTopLog = document.querySelectorAll(".log-top-layer div"),
     divsInBottomLog = document.querySelectorAll(".log-bottom-layer div"),
-    urlParams = new URLSearchParams(window.location.search),
     balls = document.querySelectorAll(".ball"),
     p1name = urlParams.get("p1n"),
     p2name = urlParams.get("p2n");
@@ -38,7 +42,20 @@ function addToBallLog(playerID, colour) {
 }
 
 function endGame() {
+    if (player1score > player2score) {
+        player1frames++;
+    } else {
+        player2frames++;
+    }
+    framesPlayed++;
+    player1score = 0;
+    player2score = 0;
+    document.querySelector(".player[data-player='1'] .frames").innerHTML = "Frames: "+player1frames;
+    document.querySelector(".player[data-player='2'] .frames").innerHTML = "Frames: "+player2frames;
+    reds = 5;
+    remaining = reds*8+27;
 
+    init();
 }
 
 function hideRedShowColours() {
@@ -70,10 +87,11 @@ function getRandomInt(max) {
 
 
 function init() {
+    log = [];
     document.querySelector(".log-top-layer").innerHTML = "<div class=\"p1\">"+p1name+"</div><div class=\"logball\"></div>";
     document.querySelector(".log-bottom-layer").innerHTML = "<div class=\"p1\">"+p2name+"</div>";
     //populate names and handicap
-    if (urlParams.get("hc")) {
+    if (urlParams.get("hc") == "true") {
         p1hc = urlParams.get("p1hc");
         p2hc = urlParams.get("p2hc");
         if (parseInt(p2hc) > 0) {
@@ -89,6 +107,9 @@ function init() {
         document.querySelector(".player[data-player='1'] .score").innerHTML = p1hc;
         document.querySelector(".player[data-player='2'] .score").innerHTML = p2hc;
 
+    } else {
+        document.querySelector(".player[data-player='1'] .handicap").innerHTML = "";
+        document.querySelector(".player[data-player='2'] .handicap").innerHTML = "";
     }
 
     document.querySelector(".player[data-player='1'] .name").innerHTML = p1name;
@@ -278,16 +299,17 @@ function loopThroughLog() {
 
 
     }
-    if (p1hc && p2hc) {
-        player1score = player1score+parseInt(p1hc);
-        player2score = player2score+parseInt(p2hc);
-    }
+
     console.log(log);
     console.log(currentBreak);
     populateUI();
 }
 
 function populateUI() {
+    if (p1hc && p2hc) {
+        player1score = player1score+parseInt(p1hc);
+        player2score = player2score+parseInt(p2hc);
+    }
     document.querySelector(".stats p").innerHTML = "Reds: "+reds;
     if (player1active == "1") {
         document.querySelector(".player[data-player='1']").classList.remove("inactive-player");
@@ -317,21 +339,65 @@ function populateUI() {
             document.querySelector(".diff_pts").innerHTML = difference;
         }
     }
-    if (player1active == "0" && player1score > player2score) {
-        p2snookersRequired = ((remaining - difference) / 2) + 1;
-        if (p1snookersRequired < 0) {
-            var p1snookeramount = Math.ceil(Math.abs(p1snookersRequired) / 4);
-            console.log("p1 snooker quant: " + p1snookeramount);
-        }
 
-    }
-        if (player1active == "1" && player1score < player2score) {
-            p1snookersRequired = ((remaining - difference) / 2) + 1;
-            if (p2snookersRequired < 0) {
-                var p2snookeramount = Math.ceil(Math.abs(p2snookersRequired) / 4);
-                console.log("p2 snooker quant: " + p2snookeramount);
+    p1snookersRequired = ((remaining-difference)/2)+1;
+    p2snookersRequired = ((remaining-difference)/2)+1;
+
+
+    p1max = player1score+remaining;
+    p2max = player2score+remaining;
+
+
+    let p1pointpercentage = Math.ceil((player1score/p1max)*100);
+    let p2pointpercentage = Math.ceil((player2score/p2max)*100);
+    let p2snookerpercentage = Math.ceil(((p2snookersRequired)/p2max)*100);
+    let p1snookerpercentage = Math.ceil(((p1snookersRequired)/p1max)*100);
+    let p1maxpercent = 100 - p1pointpercentage - p1snookerpercentage;
+    let p2maxpercent = 100 - p2pointpercentage - p2snookerpercentage;
+
+    if (p1snookersRequired > 0) {
+            document.querySelector(".pm1").setAttribute("style","grid-template-rows:"+p1maxpercent+"% "+p1snookerpercentage+"% "+p1pointpercentage+"% ");
+        } else {
+            if (p1snookersRequired < player1score) {
+                document.querySelector(".pm1").setAttribute("style","grid-template-rows:auto 0 "+p1pointpercentage+"%");
+            }
+            if (p1max == player1score) {
+                document.querySelector(".pm1").setAttribute("style","grid-template-rows:0 0 100%");
             }
         }
+    if (p2snookersRequired > 0) {
+            document.querySelector(".pm2").setAttribute("style","grid-template-rows:"+p2maxpercent+"% "+p2snookerpercentage+"% "+p2pointpercentage+"% ");
+        } else {
+            if (p2snookersRequired < player2score) {
+                document.querySelector(".pm2").setAttribute("style","grid-template-rows:auto 0% "+p2pointpercentage+"%");
+            }
+            if (p2max == player2score) {
+                document.querySelector(".pm2").setAttribute("style","grid-template-rows:0 0 100%");
+            }
+        }
+    if (player1active == "1") {
+        document.querySelector(".pm1 .points-scored").innerHTML = player1score;
+        document.querySelector(".pm1 .snookers-req").innerHTML = Math.ceil(player1score+p1snookersRequired);
+        document.querySelector(".pm1 .max-score").innerHTML = p1max;
+
+
+
+    } else {
+        document.querySelector(".pm2 .points-scored").innerHTML = player2score;
+        document.querySelector(".pm2 .snookers-req").innerHTML = Math.ceil(player2score+p1snookersRequired);
+        document.querySelector(".pm2 .max-score").innerHTML = p2max;
+    }
+
+//    if (remaining < difference && player1score < player2score) {
+//        let player1snookerquant = Math.ceil(difference/4);
+//        document.querySelector("p.snookers").innerHTML = "P1 Snookers Required: "+player1snookerquant;
+//    } else {
+//        if (remaining < difference && player2score < player1score) {
+//        let player2snookerquant = Math.ceil(difference/4);
+//        document.querySelector("p.snookers").innerHTML = "P2 Snookers Required: "+player2snookerquant;
+//    }
+//    }
+
 
     console.log("difference: " + difference)
     console.log("p2 Snookers req: " + p2snookersRequired);
@@ -511,3 +577,11 @@ for (let i=0;i<playerDivs.length;i++) {
     populateUI();
 }, false);
 }
+
+document.querySelector(".concede").addEventListener("click",function() {
+    if (confirm('Are you sure you want to concede?')) {
+        endGame();
+    } else {
+
+    }
+},false);
