@@ -52,7 +52,7 @@ function endGame() {
     player2score = 0;
     document.querySelector(".player[data-player='1'] .frames").innerHTML = "Frames: "+player1frames;
     document.querySelector(".player[data-player='2'] .frames").innerHTML = "Frames: "+player2frames;
-    reds = 5;
+    reds = urlParams.get("reds");
     remaining = reds*8+27;
 
     init();
@@ -156,7 +156,7 @@ function loopThroughLog() {
     player1score = 0;
     player2score = 0;
     remaining = 0;
-    reds = 5;
+    reds = urlParams.get("reds");
     currentBreak = 0;
     for (let i = 0; i < log.length; i++) {
         if (log.length > 2 && i > 2) {
