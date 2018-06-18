@@ -2,6 +2,7 @@ var urlParams = new URLSearchParams(window.location.search),
     redoLog = [],
     log = [],
     colours = ["RED","YELLOW","GREEN","BROWN","BLUE","PINK","BLACK"],
+    remaining_final = [27,25,22,18,13,7,0],
     player1score = 0,
     player2score = 0,
     player1active,
@@ -188,6 +189,13 @@ function loopThroughLog() {
             } else {
                 remaining = (8 * reds + 27);
             }
+            if (reds == 0) {
+                for (let c=0;c<remaining_final.length;c++) {
+                    if (log[i].indexOf(colours[c]) !== -1) {
+                        remaining = remaining_final[c];
+                    }
+                }
+            }
 
             if (log[i].substr(0, 1) == "1") {
                 player1score += (a+1);
@@ -312,15 +320,16 @@ function populateUI() {
         document.querySelector(".pm2 .max-score").innerHTML = p2max;
     }
 
-//    if (remaining < difference && player1score < player2score) {
-//        let player1snookerquant = Math.ceil(difference/4);
-//        document.querySelector("p.snookers").innerHTML = "P1 Snookers Required: "+player1snookerquant;
-//    } else {
-//        if (remaining < difference && player2score < player1score) {
-//        let player2snookerquant = Math.ceil(difference/4);
-//        document.querySelector("p.snookers").innerHTML = "P2 Snookers Required: "+player2snookerquant;
-//    }
-//    }
+    if (remaining < difference) {
+        if (player1active == "1" && player1score < player2score) {
+            let player1snookerquant = Math.ceil((difference-remaining)/4);
+        document.querySelector("p.snookers").innerHTML = "P1 Snookers Required: "+player1snookerquant;
+        } else {
+        if (player1active == "0" && player2score < player1score) {
+        let player2snookerquant = Math.ceil((difference-remaining)/4);
+        document.querySelector("p.snookers").innerHTML = "P2 Snookers Required: "+player2snookerquant;
+    }
+    }}
 
 
     console.log("difference: " + difference)
