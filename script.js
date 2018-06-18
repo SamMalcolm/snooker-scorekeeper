@@ -1,6 +1,7 @@
 var urlParams = new URLSearchParams(window.location.search),
     redoLog = [],
     log = [],
+    colours = ["RED","YELLOW","GREEN","BROWN","BLUE","PINK","BLACK"],
     player1score = 0,
     player2score = 0,
     player1active,
@@ -177,105 +178,28 @@ function loopThroughLog() {
 
 
         // Balls Potted
-        if (log[i].indexOf("RED") !== -1) {
-            currentBreak++;
-            reds--;
-            remaining = (8 * reds + 34);
-            if (log[i].substr(0, 1) == "1") {
-                player1score++;
-                addToBallLog("1","red");
+
+        for (let a = 0;a<colours.length;a++) {
+           if (log[i].indexOf(colours[a]) !== -1) {
+            currentBreak += (a+1);
+            if (colours[a] == "RED") {
+                reds--;
+                remaining = (8 * reds + 34);
             } else {
-                player2score++;
-                addToBallLog("0","red");
+                remaining = (8 * reds + 27);
+            }
+
+            if (log[i].substr(0, 1) == "1") {
+                player1score += (a+1);
+                addToBallLog("1",colours[a]);
+            } else {
+                player2score += (a+1);
+                addToBallLog("0",colours[a]);
             }
         }
-        if (log[i].indexOf("PINK") !== -1) {
-            currentBreak = currentBreak + 6;
-            remaining = (8 * reds + 27);
-            if (reds == 0 && log[log.length - 1]) {
-                remaining = 7;
-            }
-            if (log[i].substr(0, 1) == "1") {
-                player1score = player1score + 6;
-                addToBallLog("1","pink");
-            } else {
-                player2score = player2score + 6;
-                addToBallLog("0","pink");
-            }
+
         }
-        if (log[i].indexOf("BLACK") !== -1) {
-            currentBreak = currentBreak + 7;
-            remaining = (8 * reds + 27);
-            if (reds == 0 && log[log.length - 1]) {
-                remaining = 0;
-            }
-            if (log[i].substr(0, 1) == "1") {
-                player1score = player1score + 7;
-                addToBallLog("1","black");
-            } else {
-                player2score = player2score + 7;
-                addToBallLog("0","black");
-            }
-            if (remaining == 0) {
-                endGame();
-            }
-        }
-        if (log[i].indexOf("BLUE") !== -1) {
-            currentBreak = currentBreak + 5;
-            remaining = (8 * reds + 27);
-            if (reds == 0 && log[log.length - 1]) {
-                remaining = 13;
-            }
-            if (log[i].substr(0, 1) == "1") {
-                player1score = player1score + 5;
-                addToBallLog("1","blue");
-            } else {
-                player2score = player2score + 5;
-                addToBallLog("0","blue");
-            }
-        }
-        if (log[i].indexOf("BROWN") !== -1) {
-            currentBreak = currentBreak + 4;
-            remaining = (8 * reds + 27);
-            if (reds == 0 && log[log.length - 1]) {
-                remaining = 18;
-            }
-            if (log[i].substr(0, 1) == "1") {
-                player1score = player1score + 4;
-                addToBallLog("1","brown");
-            } else {
-                player2score = player2score + 4;
-                addToBallLog("0","brown");
-            }
-        }
-        if (log[i].indexOf("GREEN") !== -1) {
-            currentBreak = currentBreak + 3;
-            remaining = (8 * reds + 27);
-            if (reds == 0 && log[log.length - 1]) {
-                remaining = 22;
-            }
-            if (log[i].substr(0, 1) == "1") {
-                player1score = player1score + 3;
-                addToBallLog("1","green");
-            } else {
-                player2score = player2score + 3;
-                addToBallLog("0","green");
-            }
-        }
-        if (log[i].indexOf("YELLOW") !== -1) {
-            currentBreak = currentBreak + 2;
-            remaining = (8 * reds + 27);
-            if (reds == 0 && log[log.length - 1]) {
-                remaining = 25;
-            }
-            if (log[i].substr(0, 1) == "1") {
-                player1score = player1score + 2;
-                addToBallLog("1","yellow");
-            } else {
-                player2score = player2score + 2;
-                addToBallLog("0","yellow");
-            }
-        }
+
         //BALLS POTTED END
 
         // FOULS
@@ -500,76 +424,22 @@ function undo() {
     loopThroughLog();
 }
 
-init();
-
-document.querySelector(".redmenu").addEventListener("click", function (e) {
+for (let b=0;b<colours.length;b++) {
+    document.querySelector("."+colours[b].toLowerCase()+"border").addEventListener("click", function (e) {
 
     if (!e.target.classList.contains("disabled")) {
-       if (reds > 0) {
+
         if (player1active == "0") {
-            addToLog("0_RED");
+            addToLog("0_"+colours[b]);
         } else {
-            addToLog("1_RED");
+            addToLog("1_"+colours[b]);
         }
-    } else {
-        console.log("no more reds");
-    }
+
 
     }
 });
-document.querySelector(".pinkborder").addEventListener("click", function (e) {
-    if (!e.target.classList.contains("disabled")) {
-    if (player1active == "0") {
-        addToLog("0_PINK");
-    } else {
-        addToLog("1_PINK");
-    }
-    }
-});
-document.querySelector(".blackborder").addEventListener("click", function (e) {
-    if (!e.target.classList.contains("disabled")) {
-    if (player1active == "0") {
-        addToLog("0_BLACK");
-    } else {
-        addToLog("1_BLACK");
-    }
-    }
-});
-document.querySelector(".blueborder").addEventListener("click", function (e) {
+}
 
-    if (!e.target.classList.contains("disabled")) {
-    if (player1active == "0") {
-        addToLog("0_BLUE");
-    } else {
-        addToLog("1_BLUE");
-    }}
-});
-document.querySelector(".brownborder").addEventListener("click", function (e) {
-
-    if (!e.target.classList.contains("disabled")) {
-    if (player1active == "0") {
-        addToLog("0_BROWN");
-    } else {
-        addToLog("1_BROWN");
-    }}
-});
-document.querySelector(".greenborder").addEventListener("click", function (e) {
-    if (!e.target.classList.contains("disabled")) {
-    if (player1active == "0") {
-        addToLog("0_GREEN");
-    } else {
-        addToLog("1_GREEN");
-    }}
-});
-document.querySelector(".yellowborder").addEventListener("click", function (e) {
-    if (!e.target.classList.contains("disabled")) {
-    if (player1active == "0") {
-        addToLog("0_YELLOW");
-    } else {
-        addToLog("1_YELLOW");
-    }
-    }
-});
 
 var foulButtons = document.querySelectorAll(".foulBallButton");
 for (let i = 0; i < foulButtons.length; i++) {
@@ -605,3 +475,6 @@ document.querySelector(".concede").addEventListener("click",function() {
 
     }
 },false);
+
+
+init();
