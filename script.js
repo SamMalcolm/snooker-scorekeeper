@@ -413,16 +413,12 @@ function undo() {
 
 for (let b = 0; b < colours.length; b++) {
     document.querySelector("." + colours[b].toLowerCase() + "border").addEventListener("click", function (e) {
-
         if (!e.target.classList.contains("disabled")) {
-
             if (player1active == "0") {
                 addToLog("0_" + colours[b]);
             } else {
                 addToLog("1_" + colours[b]);
             }
-
-
         }
     });
 }
@@ -454,6 +450,7 @@ for (let i = 0; i < playerDivs.length; i++) {
         populateUI();
     }, false);
 }
+
 
 document.querySelector(".concede").addEventListener("click", function () {
     if (confirm('Are you sure you want to concede?')) {
