@@ -168,7 +168,7 @@ function loopThroughLog() {
     currentBreak = 0;
 
     for (let i = 0; i < log.length; i++) {
-        if (log.length > 2 && i > 2) {
+        if (i !== 0) {
             if (log[i].substr(0, 1) != log[i - 1].substr(0, 1)) {
             currentBreak = 0;
         }
@@ -215,11 +215,8 @@ function loopThroughLog() {
                 endGame();
             }
         }
-        if (log[0].substr(0, 1) !== log[i].substr(0, 1)) {
-                    currentBreak++;
-                }
         if (log.length > 2 && i > 2) {
-            if (log[i].substr(0, 1) == log[i - 1].substr(0, 1)) {
+//            if (log[i].substr(0, 1) == log[i - 1].substr(0, 1)) {
                 //                currentBreak++;
                 if (log[i].substr(0, 1) == "1" && currentBreak > p1hb) {
                     p1hb = currentBreak;
@@ -230,9 +227,9 @@ function loopThroughLog() {
                     }
                 }
 
-            } else {
-                currentBreak = 0;
-            }
+//            } else {
+//                currentBreak = 0;
+//            }
         }
     }
 
