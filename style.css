@@ -342,7 +342,11 @@ svg {
     margin-left:10px;
 }
 .frames {
-    font-size:7px;
+    font-size:6px;
+}
+.hb {
+    font-size:6px;
+    margin-bottom:5px;
 }
 
 /* legacy */

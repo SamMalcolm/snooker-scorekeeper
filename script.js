@@ -93,21 +93,30 @@ function getRandomInt(max) {
 
 
 function init() {
+    p1hb = 0;
+    p2hb = 0;
+    currentBreak = 0;
     log = [];
     document.querySelector(".log-top-layer").innerHTML = "<div class=\"p1\">" + p1name + "</div><div class=\"logball\"></div>";
     document.querySelector(".log-bottom-layer").innerHTML = "<div class=\"p1\">" + p2name + "</div>";
     //populate names and handicap
     if (urlParams.get("hc") == "true") {
-        p1hc = urlParams.get("p1hc");
-        p2hc = urlParams.get("p2hc");
+        p1hc = urlParams.get("p1hc") || 0;
+        p2hc = urlParams.get("p2hc") || 0;
         if (parseInt(p2hc) > 0) {
             document.querySelector(".player[data-player='2'] .handicap").innerHTML = "+" + p2hc;
         } else {
+            if (parseInt(p2hc) == 0) {
+                document.querySelector(".player[data-player='2'] .handicap").innerHTML = p2hc;
+            }
             document.querySelector(".player[data-player='2'] .handicap").innerHTML = "-" + p2hc;
         }
         if (parseInt(p1hc) > 0) {
             document.querySelector(".player[data-player='1'] .handicap").innerHTML = "+" + p1hc;
         } else {
+            if (parseInt(p1hc) == 0) {
+                document.querySelector(".player[data-player='1'] .handicap").innerHTML = p2hc;
+            }
             document.querySelector(".player[data-player='1'] .handicap").innerHTML = "-" + p1hc;
         }
         document.querySelector(".player[data-player='1'] .score").innerHTML = p1hc;
@@ -157,26 +166,18 @@ function loopThroughLog() {
     remaining = 0;
     reds = urlParams.get("reds");
     currentBreak = 0;
+
     for (let i = 0; i < log.length; i++) {
         if (log.length > 2 && i > 2) {
-            if (log[i].substr(0, 1) == log[i - 1].substr(0, 1)) {
-                if (player1active == "1" && currentBreak > p1hb) {
-                    p1hb = currentBreak;
-
-                } else {
-                    if (player1active == "0" && currentBreak > p2hb) {
-                        p2hchb = currentBreak;
-                    }
-                }
-
-            } else {
-                currentBreak = 0;
-            }
+            if (log[i].substr(0, 1) != log[i - 1].substr(0, 1)) {
+            currentBreak = 0;
+        }
         }
 
         for (let a = 0; a < colours.length; a++) {
             if (log[i].indexOf(colours[a]) !== -1) {
                 currentBreak += (a + 1);
+
                 if (colours[a] == "RED") {
                     reds--;
                     remaining = (8 * reds + 34);
@@ -190,6 +191,8 @@ function loopThroughLog() {
                         }
                     }
                 }
+                // Doesnt count first balls
+
                 if (log[i].substr(0, 1) == "1") {
                     player1score += (a + 1);
                     addToBallLog("1", colours[a]);
@@ -205,17 +208,34 @@ function loopThroughLog() {
             var value = log[i][log[i].length - 1];
             if (log[i].substr(0, 1) == "0") {
                 player1score = player1score + parseInt(value);
-                player1active = true;
             } else {
                 player2score = player2score + parseInt(value);
-                player1active = false;
             }
             if (remaining < 7) {
                 endGame();
             }
         }
+        if (log[0].substr(0, 1) !== log[i].substr(0, 1)) {
+                    currentBreak++;
+                }
+        if (log.length > 2 && i > 2) {
+            if (log[i].substr(0, 1) == log[i - 1].substr(0, 1)) {
+                //                currentBreak++;
+                if (log[i].substr(0, 1) == "1" && currentBreak > p1hb) {
+                    p1hb = currentBreak;
 
+                } else {
+                    if (log[i].substr(0, 1) == "0" && currentBreak > p2hb) {
+                        p2hb = currentBreak;
+                    }
+                }
+
+            } else {
+                currentBreak = 0;
+            }
+        }
     }
+
     console.log(log);
     console.log(currentBreak);
     populateUI();
@@ -223,7 +243,12 @@ function loopThroughLog() {
 
 
 function populateUI() {
-
+    if (p1hb) {
+        document.querySelector(".player[data-player='1'] .hb").innerHTML = "High Break: " + p1hb;
+    }
+    if (p2hb) {
+        document.querySelector(".player[data-player='2'] .hb").innerHTML = "High Break: " + p2hb;
+    }
     if (p1hc && p2hc) {
         player1score = player1score + parseInt(p1hc);
         player2score = player2score + parseInt(p2hc);
@@ -430,8 +455,10 @@ for (let i = 0; i < foulButtons.length; i++) {
         console.log("foul clicked");
         var foulValue = this.getAttribute("data-value");
         if (player1active == "0") {
+            player1active == "1";
             addToLog("0_FOUL_" + foulValue);
         } else {
+            player1active == "0";
             addToLog("1_FOUL_" + foulValue);
         }
     });
