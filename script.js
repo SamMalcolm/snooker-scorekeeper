@@ -26,10 +26,10 @@ var urlParams = new URLSearchParams(window.location.search),
     freeReds = 0,
     player1frames = 0,
     player2frames = 0,
-    logTopLayer = document.querySelector(".log-top-layer"),
-    logBottomLayer = document.querySelector(".log-bottom-layer"),
-    divsInTopLog = document.querySelectorAll(".log-top-layer div"),
-    divsInBottomLog = document.querySelectorAll(".log-bottom-layer div"),
+    logTopLayer,
+    logBottomLayer,
+    divsInTopLog,
+    divsInBottomLog,
     balls = document.querySelectorAll(".ball"),
     p1name = urlParams.get("p1n"),
     p2name = urlParams.get("p2n");
@@ -448,6 +448,10 @@ function populateUI() {
         document.querySelector(".difference_counter").style.left = "15px";
     }
     //set width of log based on content
+    logTopLayer = document.querySelector(".log-top-layer");
+    logBottomLayer = document.querySelector(".log-bottom-layer");
+    divsInTopLog = document.querySelectorAll(".log-top-layer div");
+    divsInBottomLog = document.querySelectorAll(".log-bottom-layer div");
     logTopLayer.style.width = (divsInTopLog.length + 1) * 20 + 20 + "px";
     logBottomLayer.style.width = (divsInBottomLog.length + 1) * 20 + 20 + "px";
 }
