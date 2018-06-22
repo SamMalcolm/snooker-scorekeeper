@@ -257,6 +257,11 @@ function loopThroughLog() {
 
 
 function populateUI() {
+
+
+
+
+
     if (log.length >1) {
         if (log[log.length-1].indexOf("FOUL") !== -1) {
         //SHOW FREEBALL BUTTON
@@ -350,10 +355,12 @@ function populateUI() {
 
     if (remaining < difference) {
         if (player1active == "1" && player1score < player2score) {
+            // show concede button
             let player1snookerquant = Math.ceil((difference - remaining) / 4);
             document.querySelector("p.snookers").innerHTML = "P1 Snookers Required: " + player1snookerquant;
         } else {
             if (player1active == "0" && player2score < player1score) {
+                //show concede button
                 let player2snookerquant = Math.ceil((difference - remaining) / 4);
                 document.querySelector("p.snookers").innerHTML = "P2 Snookers Required: " + player2snookerquant;
             }
@@ -493,10 +500,10 @@ for (let i = 0; i < foulButtons.length; i++) {
         console.log("foul clicked");
         var foulValue = this.getAttribute("data-value");
         if (player1active == "0") {
-            player1active == "1";
+            player1active = "1";
             addToLog("0_FOUL_" + foulValue);
         } else {
-            player1active == "0";
+            player1active = "0";
             addToLog("1_FOUL_" + foulValue);
         }
     });
