@@ -18,7 +18,11 @@ body {
     overflow-x:hidden;
 
 }
-
+html.home {
+    height: 100%;
+    max-width:100%;
+    padding:0;
+}
 html.game {
   height: 100%;
     padding-left:13px;
@@ -36,18 +40,18 @@ html.game {
 
 
 .point-meter {
-    font-size:7px;
+    font-size:11px;
     text-align:center;
     display:grid;
     grid-template-rows:1fr 1fr 1fr;
     position:fixed;
-    width:15px;
+    width:19px;
     height: 100%;
     background-color: goldenrod;
     z-index: 1000;
 }
 .point-meter-inactive {
-    width:2px;
+    width:3px;
 }
 .snookers-req {
     background-color:silver;
@@ -71,18 +75,21 @@ html.game {
     border-left: 1px darkgreen solid;
     border-bottom: 1px darkgreen solid;
 }
+.player[data-player='1'] {
+    border-left:0;
+}
 
 .name {
-    font-size: 12px;
+    font-size: 20px;
 }
 
 .handicap {
-    font-size: 6px;
+    font-size: 15px;
 }
 
 .score {
     font-family: 'advent_prothin';
-    font-size: 30px;
+    font-size: 42px;
 }
 
 .menu {
@@ -96,19 +103,19 @@ html.game {
 
 
 .button {
-    font-size: 7px;
+    font-size: 14px;
     padding: 5px;
     background-color: #333;
     border-radius: 10px;
     text-align: center;
-    width: 80%;
+    width: 90%;
     margin: auto;
 
 }
 
 .log {
     background-color: #f2f2f2;
-    height: 40px;
+    height: 60px;
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -118,68 +125,41 @@ html.game {
 }
 
 
-.svg-text {
-    fill: #FFFFFF;
-    font-family: 'MyriadPro-Regular';
-    font-size: 9.3147px;
-}
-
-.blue-fill {
-    fill: #0000ff;
-}
-
-.p1svg {
-    width: 15px;
-    position: fixed;
-    top: 0;
-}
-
-.orange-fill {
-    fill: orange;
-}
-
-.p1svg-2 {
-    width: 15px;
-    position: fixed;
-    top: 31.5%;
-}
-
-
 .logball {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     border-radius: 15px;
     margin: 5px 0 0 5px;
 
 }
 
 .redborder {
-    border: 1px solid red;
+    border: 2px solid red;
 }
 
 .yellowborder {
-    border: 1px solid  yellow;
+    border: 2px solid  yellow;
 }
 
 .greenborder {
-    border: 1px solid  green;
+    border: 2px solid  green;
 }
 
 .brownborder {
-    border: 1px solid  brown;
+    border: 2px solid  brown;
 }
 
 .blueborder {
-    border: 1px solid  blue;
+    border: 2px solid  blue;
 }
 
 .pinkborder {
-    border: 1px solid  pink;
+    border: 2px solid  pink;
 }
 
 .blackborder {
-    border: 1px solid  black;
+    border: 2px solid  black;
 }
 
 .red {
@@ -226,14 +206,14 @@ html.game {
 .p1 {
     color: black;
     position: absolute;
-    font-size: 4px;
+    font-size: 8px;
     margin-left: 2px;
 }
 
 .p2 {
     color: black;
     position: absolute;
-    font-size: 4px;
+    font-size: 8px;
     margin-left: 2px;
 }
 
@@ -242,12 +222,12 @@ svg {
 }
 
 .log-top-layer {
-    max-height: 20px;
+    max-height: 40px;
     display: block;
 }
 
 .log-bottom-layer {
-    max-height: 20px;
+    max-height: 40px;
 }
 
 .difference_counter {
@@ -255,10 +235,10 @@ svg {
     grid-template-columns: auto auto auto auto;
     position: fixed;
     width: 70%;
-    bottom: 40px;
+    bottom: 60px;
     background-color: orange;
-    height: 20px;
-    font-size: 7px;
+    height: 40px;
+    font-size: 14px;
 }
 
 .difference_counter div {
@@ -268,7 +248,7 @@ svg {
 .diff_label,
 .remain_label {
     padding: 2px;
-    padding-top: 6px;
+    padding-top: 12px;
     text-align: center;
 
 }
@@ -278,8 +258,8 @@ svg {
     background-color: #333;
     text-align: center;
     padding: 3px;
-    padding-top: 6px;
-    height: 11px;
+    padding-top: 12px;
+    height: 25px;
 }
 
     .ball-menu-container {
@@ -296,7 +276,7 @@ svg {
         display:grid;
         grid-template-rows:1fr 1fr;
         grid-template-columns: 2fr 1fr 1fr 1fr;
-        grid-gap:5px;
+        grid-gap:7px;
         width:100%;
     }
     .redmenu {
@@ -315,6 +295,7 @@ svg {
         padding-top:50%;
         text-align: center;
         border-radius:50%;
+        font-size:26px;
     }
 
 .ball:hover, .ball:active {
@@ -338,25 +319,38 @@ svg {
 }
 
 .stats p {
-    font-size:10px;
+    font-size:16px;
     margin-left:10px;
 }
 .frames {
-    font-size:6px;
+    font-size:15px;
 }
 .hb {
-    font-size:6px;
-    margin-bottom:5px;
+    font-size:15px;
+    margin-bottom:10px;
 }
 
 /* legacy */
 
+.home_header {
+    font-size:24px;
+    width:calc(100% - 20px);
+    text-align: center;
+    background-color: #333;
+    padding:10px;
+}
+.homemenu {
+    width:90%;
+    padding:5px;
+    margin:auto;
+}
 #homepageform h3 {
-    font-size:10px;
+    font-size:18px;
 }
 
 #homepageform input[type="text"] {
-    width:90%;
+    font-size:20px;
+    width:100%;
     margin:auto;
     border:0;
     border-bottom:2px solid #333;
@@ -371,9 +365,25 @@ svg {
     margin-top:10px;
     background-color:#333;
     border-radius:10px;
+    padding:10px;
 
 }
-.redmenu a:active {
+.redmenu a:active, .redmenu a:hover {
     color: white;
     background-color: black;
+}
+.footer {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    text-align: center;
+    background-color:#333;
+    font-size:12px;
+    padding-top:3px;
+    padding-bottom:3px;
+}
+input#hc {
+    width:30px;
+    height:30px;
 }

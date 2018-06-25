@@ -430,20 +430,20 @@ function populateUI() {
         document.querySelector(".point-meter.pm1 .max-score").innerHTML = "";
         document.querySelector(".point-meter.pm1 .points-scored").innerHTML = "";
         document.querySelector("html").style.paddingLeft = "0";
-        document.querySelector("html").style.paddingRight = "13px";
+        document.querySelector("html").style.paddingRight = "19px";
         document.querySelector(".log").style.left = "2px";
         document.querySelector(".log").style.left = "2px";
         document.querySelector(".difference_counter").style.removeProperty("left");
-        document.querySelector(".difference_counter").style.right = "15px";
+        document.querySelector(".difference_counter").style.right = "19px";
     } else {
         document.querySelector(".point-meter.pm2").classList.add("point-meter-inactive");
         document.querySelector(".point-meter.pm1").classList.remove("point-meter-inactive");
         document.querySelector(".point-meter.pm2 .snookers-req").innerHTML = "";
         document.querySelector(".point-meter.pm2 .max-score").innerHTML = "";
         document.querySelector(".point-meter.pm2 .points-scored").innerHTML = "";
-        document.querySelector("html").style.paddingLeft = "13px";
+        document.querySelector("html").style.paddingLeft = "19px";
         document.querySelector("html").style.paddingRight = "0";
-        document.querySelector(".log").style.left = "15px";
+        document.querySelector(".log").style.left = "19px";
         document.querySelector(".difference_counter").style.removeProperty("right");
         document.querySelector(".difference_counter").style.left = "15px";
     }
