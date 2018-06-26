@@ -56,6 +56,21 @@ function addToBallLog(playerID, colour) {
         document.querySelector(".log .log-bottom-layer").innerHTML += "<div class=\"" + colour + " logball\"></div>";
         document.querySelector(".log .log-top-layer").innerHTML += "<div class=\"logball\"></div>";
     }
+    var fouls = document.querySelectorAll(".foul_log");
+    for (let i=0;i<fouls.length;i++) {
+        if (fouls[i].classList.contains("foul_4")) {
+            fouls[i].innerHTML = "<div class=\"foul_label\">F4</div>";
+        }
+        if (fouls[i].classList.contains("foul_5")) {
+            fouls[i].innerHTML = "<div class=\"foul_label\">F5</div>";
+        }
+        if (fouls[i].classList.contains("foul_6")) {
+            fouls[i].innerHTML = "<div class=\"foul_label\">F6</div>";
+        }
+        if (fouls[i].classList.contains("foul_7")) {
+            fouls[i].innerHTML = "<div class=\"foul_label\">F7</div>";
+        }
+    }
 }
 
 
@@ -173,6 +188,7 @@ function init() {
 
 
 function loopThroughLog() {
+
     document.querySelector(".log-top-layer").innerHTML = "<div class=\"p1\">" + p1name + "</div>";
     document.querySelector(".log-bottom-layer").innerHTML = "<div class=\"p1\">" + p2name + "</div>";
     player1score = 0;
@@ -180,7 +196,9 @@ function loopThroughLog() {
     remaining = 0;
     reds = urlParams.get("reds");
     currentBreak = 0;
-
+if (log.length <= 1) {
+        remaining = 8*reds+27;
+    }
     for (let i = 0; i < log.length; i++) {
 
         if (i !== 0) {
@@ -226,8 +244,10 @@ function loopThroughLog() {
             var value = log[i][log[i].length - 1];
             if (log[i].substr(0, 1) == "0") {
                 player1score = player1score + parseInt(value);
+                addToBallLog("0","foul_"+value+" foul_log");
             } else {
                 player2score = player2score + parseInt(value);
+                addToBallLog("1","foul_"+value+" foul_log");
             }
             if (remaining < 7) {
                 endGame();
@@ -391,26 +411,26 @@ function populateUI() {
                 if (log[log.length - 2].indexOf("RED") !== -1 && currentBreak > 1) {
                     showSpecifcColour("yellow");
                 } else {
-
-
                     if (log[log.length - 1].indexOf("RED") !== -1 && player1active !== log[log.length - 1].substr(0, 1)) {
                         showSpecifcColour("yellow");
                     }
-                    if (log[log.length - 1].indexOf("YELLOW") !== -1) {
-                        showSpecifcColour("green");
+
+                    for (let i=0;i<colours.length;i++) {
+                        if (colours[i] !== "RED") {
+                            if (log[log.length - 1].indexOf(colours[i]) !== -1) {
+                        if (log[log.length - 1].indexOf("FB") == -1) {
+                            showSpecifcColour(colours[i+1].toLowerCase());
+                        } else {
+                            showSpecifcColour(colours[i].toLowerCase());
+                        }
+                        }
+
                     }
-                    if (log[log.length - 1].indexOf("GREEN") !== -1) {
-                        showSpecifcColour("brown");
+
+
                     }
-                    if (log[log.length - 1].indexOf("BROWN") !== -1) {
-                        showSpecifcColour("blue");
-                    }
-                    if (log[log.length - 1].indexOf("BLUE") !== -1) {
-                        showSpecifcColour("pink");
-                    }
-                    if (log[log.length - 1].indexOf("PINK") !== -1) {
-                        showSpecifcColour("black");
-                    }
+
+
                 }
             }
         }
@@ -445,15 +465,15 @@ function populateUI() {
         document.querySelector("html").style.paddingRight = "0";
         document.querySelector(".log").style.left = "19px";
         document.querySelector(".difference_counter").style.removeProperty("right");
-        document.querySelector(".difference_counter").style.left = "15px";
+        document.querySelector(".difference_counter").style.left = "19px";
     }
     //set width of log based on content
     logTopLayer = document.querySelector(".log-top-layer");
     logBottomLayer = document.querySelector(".log-bottom-layer");
     divsInTopLog = document.querySelectorAll(".log-top-layer div");
     divsInBottomLog = document.querySelectorAll(".log-bottom-layer div");
-    logTopLayer.style.width = (divsInTopLog.length + 1) * 20 + 20 + "px";
-    logBottomLayer.style.width = (divsInBottomLog.length + 1) * 20 + 20 + "px";
+    logTopLayer.style.width = (divsInTopLog.length + 1) * 25+"px";
+    logBottomLayer.style.width = (divsInBottomLog.length + 1) * 25+ "px";
 }
 
 

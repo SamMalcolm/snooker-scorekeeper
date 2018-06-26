@@ -387,3 +387,14 @@ input#hc {
     width:30px;
     height:30px;
 }
+
+.foul_log {
+    background-color: gray;
+    font-size: 12px;
+
+}
+.foul_label {
+    position: absolute;
+    margin-top: 3px;
+    margin-left: 3px;
+}
