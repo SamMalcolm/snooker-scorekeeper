@@ -57,7 +57,7 @@ function addToBallLog(playerID, colour) {
         document.querySelector(".log .log-top-layer").innerHTML += "<div class=\"logball\"></div>";
     }
     var fouls = document.querySelectorAll(".foul_log");
-    for (let i=0;i<fouls.length;i++) {
+    for (let i = 0; i < fouls.length; i++) {
         if (fouls[i].classList.contains("foul_4")) {
             fouls[i].innerHTML = "<div class=\"foul_label\">F4</div>";
         }
@@ -113,6 +113,12 @@ function showSpecifcColour(color) {
         balls[i].classList.add("disabled");
     }
     document.querySelector("." + color + "border").classList.remove("disabled");
+    //    for (let i=0;i<colours.length;i++) {
+    //        if (colours[i].indexOf(color) !== -1) {
+    //            remaining = remaining_final[i];
+    //        }
+    //    }
+
 }
 
 
@@ -178,10 +184,7 @@ function init() {
         }
     }
 
-    for (let i = 0; i < balls.length; i++) {
-        balls[i].classList.add("disabled");
-    }
-    document.querySelector(".redmenu").classList.remove("disabled");
+    hideColoursShowRed();
     console.log(player1active);
     populateUI();
 }
@@ -193,12 +196,10 @@ function loopThroughLog() {
     document.querySelector(".log-bottom-layer").innerHTML = "<div class=\"p1\">" + p2name + "</div>";
     player1score = 0;
     player2score = 0;
-    remaining = 0;
+    remaining = 8 * reds + 27;;
     reds = urlParams.get("reds");
     currentBreak = 0;
-if (log.length <= 1) {
-        remaining = 8*reds+27;
-    }
+
     for (let i = 0; i < log.length; i++) {
 
         if (i !== 0) {
@@ -221,13 +222,36 @@ if (log.length <= 1) {
                     remaining = (8 * reds + 27);
                 }
                 if (reds == 0) {
-                    for (let c = 0; c < remaining_final.length; c++) {
+                    for (let c = 0; c < colours.length; c++) {
+                        //                        if (log[log.length - 1].indexOf("RED") !== -1 && player1active == log[log.length - 1].substr(0, 1) && currentBreak > 1) {
+                        //                            remaining = 34;
+                        //                        } else {
+                        //                            if (log[log.length - 1].indexOf("RED") !== -1 && player1active !== log[log.length - 1].substr(0, 1)) {
+                        //                                remaining = 27;
+                        //                            }
+                        //                            if (log[i].indexOf(colours[c]) !== -1) {
+                        //                                remaining = remaining_final[c];
+                        //                                if (log[i].indexOf("BLACK") !== -1 && remaining <= 7 && log[i-1].indexOf("RED") == -1) {
+                        //                                    endGame();
+                        //                                }
+                        //
+                        //                            }
+                        //                        }
+
                         if (log[i].indexOf(colours[c]) !== -1) {
+
                             remaining = remaining_final[c];
+
+                            if (log[i - 1].indexOf("RED") !== -1 && player1active == log[i - 1].substr(0, 1) && player1active == log[i].substr(0, 1) && currentBreak > 1) {
+                                remaining = 27;
+                            }
+                            if (remaining <= 7 && log[i].indexOf("BLACK") !== -1) {
+                                endGame();
+                            }
                         }
+
                     }
                 }
-                // Doesnt count first balls
 
                 if (log[i].substr(0, 1) == "1") {
                     player1score += (a + 1);
@@ -244,15 +268,14 @@ if (log.length <= 1) {
             var value = log[i][log[i].length - 1];
             if (log[i].substr(0, 1) == "0") {
                 player1score = player1score + parseInt(value);
-                addToBallLog("0","foul_"+value+" foul_log");
+                addToBallLog("0", "foul_" + value + " foul_log");
             } else {
                 player2score = player2score + parseInt(value);
-                addToBallLog("1","foul_"+value+" foul_log");
+                addToBallLog("1", "foul_" + value + " foul_log");
             }
-            if (remaining < 7) {
-                endGame();
-            }
+
         }
+
         if (log.length > 2 && i > 2) {
             //            if (log[i].substr(0, 1) == log[i - 1].substr(0, 1)) {
             //                currentBreak++;
@@ -277,17 +300,15 @@ if (log.length <= 1) {
 
 
 function populateUI() {
+    document.querySelector(".concede").style.display = "none";
 
+    if (log.length >= 1) {
+        if (log[log.length - 1].indexOf("FOUL") !== -1) {
+            document.querySelector(".freeBallButton").style.display = "block";
+        } else {
+            document.querySelector(".freeBallButton").style.display = "none";
 
-
-
-
-    if (log.length >1) {
-        if (log[log.length-1].indexOf("FOUL") !== -1) {
-        //SHOW FREEBALL BUTTON
-    } else {
-        //HIDE IT
-    }
+        }
     }
 
 
@@ -375,12 +396,12 @@ function populateUI() {
 
     if (remaining < difference) {
         if (player1active == "1" && player1score < player2score) {
-            // show concede button
+            document.querySelector(".concede").style.display = "block";
             let player1snookerquant = Math.ceil((difference - remaining) / 4);
             document.querySelector("p.snookers").innerHTML = "P1 Snookers Required: " + player1snookerquant;
         } else {
             if (player1active == "0" && player2score < player1score) {
-                //show concede button
+                document.querySelector(".concede").style.display = "block";
                 let player2snookerquant = Math.ceil((difference - remaining) / 4);
                 document.querySelector("p.snookers").innerHTML = "P2 Snookers Required: " + player2snookerquant;
             }
@@ -415,17 +436,20 @@ function populateUI() {
                         showSpecifcColour("yellow");
                     }
 
-                    for (let i=0;i<colours.length;i++) {
+                    for (let i = 0; i < colours.length; i++) {
                         if (colours[i] !== "RED") {
                             if (log[log.length - 1].indexOf(colours[i]) !== -1) {
-                        if (log[log.length - 1].indexOf("FB") == -1) {
-                            showSpecifcColour(colours[i+1].toLowerCase());
-                        } else {
-                            showSpecifcColour(colours[i].toLowerCase());
-                        }
-                        }
+                                if (log[log.length - 1].indexOf("FB") == -1) {
+                                    if (colours[i] !== "BLACK") {
+                                        showSpecifcColour(colours[i + 1].toLowerCase());
+                                    }
 
-                    }
+                                } else {
+                                    showSpecifcColour(colours[i].toLowerCase());
+                                }
+                            }
+
+                        }
 
 
                     }
@@ -472,8 +496,8 @@ function populateUI() {
     logBottomLayer = document.querySelector(".log-bottom-layer");
     divsInTopLog = document.querySelectorAll(".log-top-layer div");
     divsInBottomLog = document.querySelectorAll(".log-bottom-layer div");
-    logTopLayer.style.width = (divsInTopLog.length + 1) * 25+"px";
-    logBottomLayer.style.width = (divsInBottomLog.length + 1) * 25+ "px";
+    logTopLayer.style.width = (divsInTopLog.length + 1) * 25 + "px";
+    logBottomLayer.style.width = (divsInBottomLog.length + 1) * 25 + "px";
 }
 
 
@@ -492,24 +516,24 @@ function undo() {
 
 for (let b = 0; b < colours.length; b++) {
     document.querySelector("." + colours[b].toLowerCase() + "border").addEventListener("click", function (e) {
-            if (!e.target.classList.contains("disabled")) {
-                if (log.length>1) {
-                    if (freeBallActive && log[log.length-1].indexOf("FB") !== -1) {
+        if (!e.target.classList.contains("disabled")) {
+            if (log.length > 1) {
+                if (freeBallActive && log[log.length - 1].indexOf("FB") !== -1) {
                     freeBallActive = false;
                 }
-                }
+            }
 
-                if (!freeBallActive) {
-                    if (player1active == "0") {
-                        addToLog("0_" + colours[b]);
-                    } else {
-                        addToLog("1_" + colours[b]);
-                    }
+            if (!freeBallActive) {
+                if (player1active == "0") {
+                    addToLog("0_" + colours[b]);
                 } else {
-                    if (player1active == "0") {
-                        addToLog("0_FB_" + colours[b]);
-                    } else {
-                        addToLog("1_FB_" + colours[b]);
+                    addToLog("1_" + colours[b]);
+                }
+            } else {
+                if (player1active == "0") {
+                    addToLog("0_FB_" + colours[b]);
+                } else {
+                    addToLog("1_FB_" + colours[b]);
                 }
             }
 
