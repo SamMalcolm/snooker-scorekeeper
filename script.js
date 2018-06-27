@@ -241,7 +241,7 @@ function loopThroughLog() {
                         if (log[i].indexOf(colours[c]) !== -1) {
 
                             remaining = remaining_final[c];
-
+                            // EXCEPTION
                             if (log[i - 1].indexOf("RED") !== -1 && player1active == log[i - 1].substr(0, 1) && player1active == log[i].substr(0, 1) && currentBreak > 1) {
                                 remaining = 27;
                             }
