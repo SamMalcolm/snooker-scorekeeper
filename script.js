@@ -75,6 +75,7 @@ function addToBallLog(playerID, colour) {
 
 
 function endGame() {
+    populateUI();
     if (player1score > player2score) {
         player1frames++;
     } else {
@@ -246,20 +247,30 @@ function loopThroughLog() {
                                 remaining = 27;
                             }
                             if (remaining <= 7 && log[i].indexOf("BLACK") !== -1) {
+                                if (log[i].substr(0, 1) == "1" && currentBreak > p1hb) {
+                                    p1hb = currentBreak;
+
+                                } else {
+                                    if (log[i].substr(0, 1) == "0" && currentBreak > p2hb) {
+                                        p2hb = currentBreak;
+                                    }
+                                }
                                 endGame();
                             }
                         }
 
                     }
                 }
-
-                if (log[i].substr(0, 1) == "1") {
-                    player1score += (a + 1);
-                    addToBallLog("1", colours[a].toLowerCase());
-                } else {
-                    player2score += (a + 1);
-                    addToBallLog("0", colours[a].toLowerCase());
+                if (log.length >= 1) {
+                    if (log[i].substr(0, 1) == "1") {
+                        player1score += (a + 1);
+                        addToBallLog("1", colours[a].toLowerCase());
+                    } else {
+                        player2score += (a + 1);
+                        addToBallLog("0", colours[a].toLowerCase());
+                    }
                 }
+
             }
         }
 
@@ -291,6 +302,9 @@ function loopThroughLog() {
             //            } else {
             //                currentBreak = 0;
             //            }
+        }
+        if (log[i].indexOf("EOB") !== -1) {
+            currentBreak = 0;
         }
     }
     console.log(log);
@@ -570,6 +584,7 @@ for (let i = 0; i < playerDivs.length; i++) {
         } else {
             player1active = "1";
         }
+        addToLog("EOB");
         populateUI();
     }, false);
 }
