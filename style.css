@@ -398,3 +398,21 @@ input#hc {
     margin-top: 3px;
     margin-left: 3px;
 }
+
+input[type="checkbox"]#hc { display: none; }
+
+label[for="hc"] {
+    width:70%;
+    margin:auto;
+    background-color: red;
+    padding:10px;
+    border-radius:10px;
+}
+
+input[type="checkbox"]#hc:checked + label[for="hc"] {
+    background-color: green;
+
+}
+
+
+

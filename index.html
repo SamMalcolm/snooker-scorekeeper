@@ -19,8 +19,8 @@
             <input type="text" name="player1name" id="player1name" />
             <h3>Player 2 Name:</h3>
             <input type="text" name="player2name" id="player2name" /><br /><br />
-            <input type="checkbox" name="hc" id="hc" />
-            <label for="hc">Handicapped?</label>
+            <input type="checkbox" name="hc" id="hc" checked="false" />
+            <label for="hc" class="hc_checkbox">Handicaps Off</label>
             <span class="handicaps" style="display:none;">
                 <h3>Player 1 Handicap:</h3>
                 <input type="text" name="player1handicap" id="player1handicap" />
@@ -40,8 +40,11 @@
             document.querySelector("#hc").addEventListener("input",function() {
                 if (this.checked) {
                     document.querySelector(".handicaps").style.display = "block";
+                    this.nextElementSibling.innerHTML = "Handicaps On";
+
                 } else {
                      document.querySelector(".handicaps").style.display = "none";
+                    this.nextElementSibling.innerHTML = "Handicaps Off";
 
                 }
             },false);
