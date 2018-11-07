@@ -325,7 +325,6 @@ function populateUI() {
         }
     }
 
-
     if (p1hb) {
         document.querySelector(".player[data-player='1'] .hb").innerHTML = "High Break: " + p1hb;
     }
@@ -365,8 +364,15 @@ function populateUI() {
             document.querySelector(".diff_pts").innerHTML = difference;
         }
     }
-    p1snookersRequired = ((remaining - difference) / 2) + 1;
-    p2snookersRequired = ((remaining - difference) / 2) + 1;
+    // if (player1score > player2score) {
+    //     p1snookersRequired = (remaining/2)+1-player1score;
+    //     p2snookersRequired = player1score + ((remaining - player1score)/2) +1;
+    // } else {
+    //     p2snookersRequired = (remaining/2)+1-player2score;
+    //     p1snookersRequired = player2score + ((remaining - player2score)/2) +1;
+    // }
+    p1snookersRequired = (remaining - (player1score - player2score))/2;
+    p2snookersRequired = (remaining - (player2score - player1score))/2;
     p1max = player1score + remaining;
     p2max = player2score + remaining;
     let p1pointpercentage = Math.ceil((player1score / p1max) * 100);
