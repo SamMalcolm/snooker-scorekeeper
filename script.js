@@ -406,11 +406,11 @@ function populateUI() {
 
     if (player1active == "1") {
         document.querySelector(".pm1 .points-scored").innerHTML = player1score;
-        document.querySelector(".pm1 .snookers-req").innerHTML = Math.ceil(player1score + p1snookersRequired);
+        document.querySelector(".pm1 .snookers-req").innerHTML = Math.ceil(p1snookersRequired + player1score);
         document.querySelector(".pm1 .max-score").innerHTML = p1max;
     } else {
         document.querySelector(".pm2 .points-scored").innerHTML = player2score;
-        document.querySelector(".pm2 .snookers-req").innerHTML = Math.ceil(player2score + p1snookersRequired);
+        document.querySelector(".pm2 .snookers-req").innerHTML = Math.ceil(p2snookersRequired + player2score);
         document.querySelector(".pm2 .max-score").innerHTML = p2max;
     }
 
