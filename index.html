@@ -1,91 +1,92 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en" class="home">
 
 <head>
-    <meta charset="utf-8" />
-    <title>Snooker Score Keeper</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta charset="utf-8" />
+	<title>Snooker Score Keeper</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 </head>
 
 <body>
 
-    <div class="home_header">SNOOKER SCORE KEEPER</div>
-    <div class="homemenu">
-        <form id="homepageform">
-            <h3>Player 1 Name:</h3>
-            <input type="text" name="player1name" id="player1name" />
-            <h3>Player 2 Name:</h3>
-            <input type="text" name="player2name" id="player2name" /><br /><br />
-            <input type="checkbox" name="hc" id="hc" checked="false" />
-            <label for="hc" class="hc_checkbox">Handicaps Off</label>
-            <span class="handicaps" style="display:none;">
-                <h3>Player 1 Handicap:</h3>
-                <input type="text" name="player1handicap" id="player1handicap" />
-                <h3>Player 2 Handicap:</h3>
-                <input type="text" name="player2handicap" id="player2handicap" />
-            </span><br /> <br />
-        </form>
-        <div class="redmenu">
-            <a href="game.html?reds=6" id="six-reds">6 REDS</a>
-            <a href="game.html?reds=10" id="ten-reds">10 REDS</a>
-            <a href="game.html?reds=15" id="fifteen-reds">15 REDS</a><br />
-        </div>
-    </div>
-        <div class="footer">&copy; Sam Malcolm 2017</div>
-        <script>
+	<div class="home_header">SNOOKER SCORE KEEPER</div>
+	<div class="homemenu">
+		<form id="homepageform">
+			<h3>Player 1 Name:</h3>
+			<input type="text" name="player1name" id="player1name" />
+			<h3>Player 2 Name:</h3>
+			<input type="text" name="player2name" id="player2name" /><br /><br />
+			<input type="checkbox" name="hc" id="hc" checked="false" />
+			<label for="hc" class="hc_checkbox">Handicaps Off</label>
+			<span class="handicaps" style="display:none;">
+				<h3>Player 1 Handicap:</h3>
+				<input type="text" name="player1handicap" id="player1handicap" />
+				<h3>Player 2 Handicap:</h3>
+				<input type="text" name="player2handicap" id="player2handicap" />
+			</span><br /> <br />
+		</form>
+		<div class="redmenu">
+			<a href="game.html?reds=6" id="six-reds">6 REDS</a>
+			<a href="game.html?reds=10" id="ten-reds">10 REDS</a>
+			<a href="game.html?reds=15" id="fifteen-reds">15 REDS</a><br />
+		</div>
+	</div>
+	<div class="footer">&copy; Sam Malcolm 2017</div>
+	<script>
 
-            document.querySelector("#hc").addEventListener("input",function() {
-                if (this.checked) {
-                    document.querySelector(".handicaps").style.display = "block";
-                    this.nextElementSibling.innerHTML = "Handicaps On";
+		document.querySelector("#hc").addEventListener("input", function () {
+			if (this.checked) {
+				document.querySelector(".handicaps").style.display = "block";
+				this.nextElementSibling.innerHTML = "Handicaps On";
 
-                } else {
-                     document.querySelector(".handicaps").style.display = "none";
-                    this.nextElementSibling.innerHTML = "Handicaps Off";
+			} else {
+				document.querySelector(".handicaps").style.display = "none";
+				this.nextElementSibling.innerHTML = "Handicaps Off";
 
-                }
-            },false);
-            function addNames(id) {
-                var currentURL = document.querySelector(id).getAttribute("href");
-                var p1hc = document.forms["homepageform"].elements["player1handicap"].value;
-                var p2hc = document.forms["homepageform"].elements["player2handicap"].value;
-                var p1name = document.forms["homepageform"].elements["player1name"].value;
-                var p2name = document.forms["homepageform"].elements["player2name"].value;
-                if (document.querySelector("#hc").checked) {
-                    return currentURL + "&p1n=" + p1name + "&p2n=" + p2name + "&p1hc=" + p1hc +"&p2hc=" + p2hc + "&hc=true";
-                }
-                return currentURL + "&p1n=" + p1name + "&p2n=" + p2name + "&hc=false";
-            }
+			}
+		}, false);
 
+		function addNames(id) {
+			var currentURL = document.querySelector(id).getAttribute("href");
+			var p1hc = document.querySelector("#player1handicap").value;
+			var p2hc = document.querySelector("#player2handicap").value;
+			var p1name = document.forms["homepageform"].elements["player1name"].value;
+			var p2name = document.forms["homepageform"].elements["player2name"].value;
+			if (document.querySelector("#hc").checked) {
+				return currentURL + "&p1n=" + p1name + "&p2n=" + p2name + "&p1hc=" + p1hc + "&p2hc=" + p2hc + "&hc=true";
+			}
+			return currentURL + "&p1n=" + p1name + "&p2n=" + p2name + "&hc=false";
+		}
 
+		function prepValues() {
+			document.querySelector("#six-reds").setAttribute("href", "game.html?reds=6");
+			document.querySelector("#ten-reds").setAttribute("href", "game.html?reds=10");
+			document.querySelector("#fifteen-reds").setAttribute("href", "game.html?reds=15");
+			var new6url = addNames("#six-reds");
+			var new10url = addNames("#ten-reds");
+			var new15url = addNames("#fifteen-reds");
+			document.querySelector("#six-reds").setAttribute("href", new6url);
+			document.querySelector("#ten-reds").setAttribute("href", new10url);
+			document.querySelector("#fifteen-reds").setAttribute("href", new15url);
+		}
 
-            document.querySelector("#player1name").addEventListener("keyup", function() {
-                document.querySelector("#six-reds").setAttribute("href", "game.html?reds=6");
-                document.querySelector("#ten-reds").setAttribute("href", "game.html?reds=10");
-                document.querySelector("#fifteen-reds").setAttribute("href", "game.html?reds=15");
-                var new6url = addNames("#six-reds");
-                var new10url = addNames("#ten-reds");
-                var new15url = addNames("#fifteen-reds");
-                document.querySelector("#six-reds").setAttribute("href", new6url);
-                document.querySelector("#ten-reds").setAttribute("href", new10url);
-                document.querySelector("#fifteen-reds").setAttribute("href", new15url);
-            });
-            document.querySelector("#player2name").addEventListener("keyup", function() {
-                document.querySelector("#six-reds").setAttribute("href", "game.html?reds=6");
-                document.querySelector("#ten-reds").setAttribute("href", "game.html?reds=10");
-                document.querySelector("#fifteen-reds").setAttribute("href", "game.html?reds=15");
-                var new6url = addNames("#six-reds");
-                var new10url = addNames("#ten-reds");
-                var new15url = addNames("#fifteen-reds");
-                document.querySelector("#six-reds").setAttribute("href", new6url);
-                document.querySelector("#ten-reds").setAttribute("href", new10url);
-                document.querySelector("#fifteen-reds").setAttribute("href", new15url);
-            });
-        </script>
-<!--        <script src="phonegap.js"></script>-->
+		let listeners = [
+			document.querySelector("#player1name"),
+			document.querySelector("#player2name"),
+			document.querySelector("#player1handicap"),
+			document.querySelector("#player2handicap")
+		];
+
+		for (let i = 0; i < listeners.length; i++) {
+			listeners[i].addEventListener("keyup", function () {
+				prepValues();
+			}, false)
+		}
+
+	</script>
+	<!--        <script src="phonegap.js"></script>-->
 </body>
 
 </html>
